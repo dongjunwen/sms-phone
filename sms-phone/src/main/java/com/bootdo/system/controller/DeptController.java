@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * 部门管理
- * 
+ *
  * @author chglee
  * @email 1992lcg@163.com
  * @date 2017-09-27 14:40:36
@@ -28,12 +28,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("/system/sysDept")
 public class DeptController extends BaseController {
-	private String prefix = "system/dept";
+	private String prefix = "/system/dept";
 	@Autowired
 	private DeptService sysDeptService;
 
 	@GetMapping()
-	@RequiresPermissions("system:sysDept:sysDept")
+	@RequiresPermissions("com.bootdo.system:sysDept:sysDept")
 	String dept() {
 		return prefix + "/dept";
 	}
@@ -41,7 +41,7 @@ public class DeptController extends BaseController {
 	@ApiOperation(value="获取部门列表", notes="")
 	@ResponseBody
 	@GetMapping("/list")
-	@RequiresPermissions("system:sysDept:sysDept")
+	@RequiresPermissions("com.bootdo.system:sysDept:sysDept")
 	public List<DeptDO> list() {
 		Map<String, Object> query = new HashMap<>(16);
 		List<DeptDO> sysDeptList = sysDeptService.list(query);
@@ -49,7 +49,7 @@ public class DeptController extends BaseController {
 	}
 
 	@GetMapping("/add/{pId}")
-	@RequiresPermissions("system:sysDept:add")
+	@RequiresPermissions("com.bootdo.system:sysDept:add")
 	String add(@PathVariable("pId") Long pId, Model model) {
 		model.addAttribute("pId", pId);
 		if (pId == 0) {
@@ -61,7 +61,7 @@ public class DeptController extends BaseController {
 	}
 
 	@GetMapping("/edit/{deptId}")
-	@RequiresPermissions("system:sysDept:edit")
+	@RequiresPermissions("com.bootdo.system:sysDept:edit")
 	String edit(@PathVariable("deptId") Long deptId, Model model) {
 		DeptDO sysDept = sysDeptService.get(deptId);
 		model.addAttribute("sysDept", sysDept);

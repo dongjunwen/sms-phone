@@ -1,5 +1,5 @@
 
-var prefix = "/system/sysDept"
+var prefix = "/com.bootdo.system/sysDept"
 $(function() {
 	load();
 });

@@ -8,7 +8,7 @@
     <version>2.0.0</version>
     <packaging>jar</packaging>
 
-    <name>bootdo</name>
+    <name>sms-phone</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>

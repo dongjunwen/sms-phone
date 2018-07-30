@@ -196,7 +196,7 @@ function batchRemove() {
 function getTreeData() {
 	$.ajax({
 		type : "GET",
-		url : "/system/sysDept/tree",
+		url : "/com.bootdo.system/sysDept/tree",
 		success : function(tree) {
 			loadTree(tree);
 		}

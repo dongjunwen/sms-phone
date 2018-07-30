@@ -22,7 +22,7 @@ import java.util.Map;
 @RequestMapping("/sys/menu")
 @Controller
 public class MenuController extends BaseController {
-	String prefix = "system/menu";
+	String prefix = "/system/menu";
 	@Autowired
 	MenuService menuService;
 

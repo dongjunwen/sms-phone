@@ -1,6 +1,7 @@
 package com.bootdo.common.aspect;
 
 import com.bootdo.common.utils.HttpContextUtils;
+import com.bootdo.common.utils.IPUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -37,7 +38,7 @@ public class WebLogAspect {
         logger.info("请求地址 : " + request.getRequestURL().toString());
         logger.info("HTTP METHOD : " + request.getMethod());
         // 获取真实的ip地址
-        //logger.info("IP : " + IPAddressUtil.getClientIpAddress(request));
+       logger.info("IP : " + IPUtils.getIpAddr(request));
         logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName());
         logger.info("参数 : " + Arrays.toString(joinPoint.getArgs()));

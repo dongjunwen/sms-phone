@@ -1,6 +1,5 @@
 package com.bootdo.system.controller;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class SessionController {
 
 	@GetMapping()
 	public String online() {
-		return "system/online/online";
+		return "/system/online/online";
 	}
 
 	@ResponseBody

@@ -3187,7 +3187,7 @@ var Position = {
     source = $(source);
     var p = Position.page(source);
 
-    // find coordinate system to use
+    // find coordinate com.bootdo.system to use
     target = $(target);
     var delta = [0, 0];
     var parent = null;

@@ -125,7 +125,7 @@ infolike:{[file;pattern] info0[file;{x where x like y}[lower colhdrs[file];patte
 \d .
 / DATA:()
 bulkload:{[file;info]
-	if[not`DATA in system"v";'`DATA.not.defined];
+	if[not`DATA in com.bootdo.system"v";'`DATA.not.defined];
 	if[count DATA;'`DATA.not.empty];
 	loadhdrs:exec c from info where not t=" ";loadfmts:exec t from info;
 	.csv.fs2[{[file;loadhdrs;loadfmts] `DATA insert $[count DATA;flip loadhdrs!(loadfmts;.csv.DELIM)0:file;loadhdrs xcol(loadfmts;enlist .csv.DELIM)0:file]}[file;loadhdrs;loadfmts]];
