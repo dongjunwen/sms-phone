@@ -17,12 +17,16 @@ public class SmsDO implements Serializable {
 	
 	//主键ID
 	private Long id;
+	private String orderNo;
 	//手机号码
 	private String phoneNum;
 	//0:停止 1:运行中
 	private Integer execStatus;
 	//运行类型
 	private String execType;
+	private Long userId;
+	private Date createTime;
+	private Date modiTime;
 
 	/**
 	 * 设置：主键ID
@@ -36,6 +40,15 @@ public class SmsDO implements Serializable {
 	public Long getId() {
 		return id;
 	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
 	/**
 	 * 设置：手机号码
 	 */
@@ -71,5 +84,29 @@ public class SmsDO implements Serializable {
 	 */
 	public String getExecType() {
 		return execType;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getModiTime() {
+		return modiTime;
+	}
+
+	public void setModiTime(Date modiTime) {
+		this.modiTime = modiTime;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

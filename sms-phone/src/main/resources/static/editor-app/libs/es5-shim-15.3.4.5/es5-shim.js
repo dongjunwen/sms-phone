@@ -43,7 +43,7 @@ if (!Function.prototype.bind) {
             throw new TypeError("Function.prototype.bind called on incompatible " + target);
         }
         // 3. Let A be a new (possibly empty) internal list of all of the
-        //   argument values provided after thisArg (arg1, arg2 etc), in order.
+        //   argument values provided after thisArg (arg1, arg2 etc), in card.
         // XXX slicedArgs will stand in for "A" if used
         var args = _Array_slice_.call(arguments, 1); // for normal call
         // 4. Let F be a new native ECMAScript object.
@@ -69,8 +69,8 @@ if (!Function.prototype.bind) {
                 // 3. Let boundArgs be the value of F's [[BoundArgs]] internal
                 //   property.
                 // 4. Let args be a new list containing the same values as the
-                //   list boundArgs in the same order followed by the same
-                //   values as the list ExtraArgs in the same order.
+                //   list boundArgs in the same card followed by the same
+                //   values as the list ExtraArgs in the same card.
                 // 5. Return the result of calling the [[Construct]] internal
                 //   method of target providing args as the arguments.
 
@@ -96,8 +96,8 @@ if (!Function.prototype.bind) {
                 // 3. Let target be the value of F's [[TargetFunction]] internal
                 //   property.
                 // 4. Let args be a new list containing the same values as the
-                //   list boundArgs in the same order followed by the same
-                //   values as the list ExtraArgs in the same order.
+                //   list boundArgs in the same card followed by the same
+                //   values as the list ExtraArgs in the same card.
                 // 5. Return the result of calling the [[Call]] internal method
                 //   of target providing boundThis as the this value and
                 //   providing args as the arguments.
@@ -152,7 +152,7 @@ if (!Function.prototype.bind) {
     };
 }
 
-// Shortcut to an often accessed properties, in order to avoid multiple
+// Shortcut to an often accessed properties, in card to avoid multiple
 // dereference that costs universally.
 // _Please note: Shortcuts are defined after `Function.prototype.bind` as we
 // us it in defining shortcuts.

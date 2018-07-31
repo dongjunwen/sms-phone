@@ -9,7 +9,7 @@ function load() {
 			.bootstrapTable(
 					{
 						method : 'get', // 服务器数据的请求方式 get or post
-						url : prefix + "/list", // 服务器数据的加载地址
+						url : prefix+"/userCardList", // 服务器数据的加载地址
 					//	showRefresh : true,
 					//	showToggle : true,
 					//	showColumns : true,
@@ -30,7 +30,7 @@ function load() {
 						sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
 						queryParams : function(params) {
 							return {
-								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，card：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset
 					           // name:$('#searchName').val(),
@@ -39,7 +39,7 @@ function load() {
 						},
 						// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
 						// queryParamsType = 'limit' ,返回参数必须包含
-						// limit, offset, search, sort, order 否则, 需要包含:
+						// limit, offset, search, sort, card 否则, 需要包含:
 						// pageSize, pageNumber, searchText, sortName,
 						// sortOrder.
 						// 返回false将会终止请求
@@ -47,37 +47,41 @@ function load() {
 								{
 									checkbox : true
 								},
-																{
-									field : 'id', 
-									title : '主键ID' 
-								},
-																{
-									field : 'phoneNum', 
-									title : '手机号码' 
-								},
-																{
-									field : 'execStatus', 
-									title : '运行状态'
-								},
-																{
-									field : 'execType', 
-									title : '运行类型' 
-								},
-																{
+                            {
+                                field : 'id',
+                                title : '主键ID',
+								hidden: true
+                            },
+							 {
+									field : 'orderNo',
+									title : '卡密编号'
+							 },
+							{
+									field : 'orderName',
+									title : '卡密名称'
+							},
+							{
+                                field : 'useTime',
+                                title : '生效时间'
+                            },                     {
+                                field : 'unvalidTime',
+                                title : '失效时间'
+                            },
+							{
 									title : '操作',
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ row.id
+                                        var a = '<a class="btn btn-primary btn-sm '+s_add_h+'" href="#" mce_href="#" title="手机号管理" onclick="add(\''
+                                            + row.orderNo
+                                            + '\')"><i class="fa fa-plus"></i></a> ';
+										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="修改" onclick="edit(\''
+												+ row.orderNo
 												+ '\')"><i class="fa fa-edit"></i></a> ';
 										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ row.id
+												+ row.orderNo
 												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
-												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
+										return a ;
 									}
 								} ]
 					});
@@ -85,24 +89,24 @@ function load() {
 function reLoad() {
 	$('#exampleTable').bootstrapTable('refresh');
 }
-function add() {
+function add(orderNo) {
 	layer.open({
 		type : 2,
 		title : '增加',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
-		content : prefix + '/add' // iframe的url
+		content : prefix + '/add/'+orderNo // iframe的url
 	});
 }
-function edit(id) {
+function edit(orderNo) {
 	layer.open({
 		type : 2,
 		title : '编辑',
 		maxmin : true,
 		shadeClose : false, // 点击遮罩关闭层
 		area : [ '800px', '520px' ],
-		content : prefix + '/edit/' + id // iframe的url
+		content : prefix + '/edit/' + orderNo // iframe的url
 	});
 }
 function remove(id) {
@@ -162,4 +166,39 @@ function batchRemove() {
 	}, function() {
 
 	});
+}
+
+function valid() {
+    $.ajax({
+        type : 'POST',
+        data : $("#cardForm").serialize(),
+        url : prefix + '/valid',
+        success : function(r) {
+            if (r.code == 0) {
+                layer.msg(r.msg);
+                reLoad();
+            } else {
+                layer.msg(r.msg);
+            }
+        }
+    });
+}
+
+function addPhone() {
+    $.ajax({
+        type : 'POST',
+        data : $("#phoneForm").serialize(),
+        url : prefix + '/add',
+        success : function(r) {
+            if (r.code == 0) {
+                layer.msg(r.msg);
+                reLoad();
+            } else {
+                layer.msg(r.msg);
+            }
+        }
+    });
+
+
+
 }

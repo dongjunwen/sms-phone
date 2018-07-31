@@ -29,4 +29,10 @@ public interface SmsDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    int countByIndex(SmsDO smsDO);
+
+    List<SmsDO> listAvailable();
+
+    List<SmsDO> selectByOrderNo(String orderNo);
 }

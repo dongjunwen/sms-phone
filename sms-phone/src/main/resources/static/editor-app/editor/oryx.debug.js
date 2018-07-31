@@ -8268,7 +8268,7 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
 				result = result.concat(children).uniq();
 			}
 			
-			// Sort the result to the origin order
+			// Sort the result to the origin card
 			result = result.sortBy(function(stencil) {
 				return stencils.indexOf(stencil);
 			});
@@ -19144,7 +19144,7 @@ ORYX.Plugins.Arrangement = ORYX.Plugins.AbstractPlugin.extend({
 			},			
 			execute: function(){
 				
-				// Call the defined z-order callback with the elements
+				// Call the defined z-card callback with the elements
 				this.callback( this.elements )			
 				this.facade.setSelection( this.elements )
 			},
@@ -23647,7 +23647,7 @@ new function(){
                         // Update all dockers
                         this.updateDockers(considerForDockers, pool);
                        
-                        // Check if the order has changed
+                        // Check if the card has changed
                         if (this.hashedPositions[pool.id] && this.hashedPositions[pool.id].keys().any(function(key, i){
                                         return (allLanes[i]||{}).id     !== key;
                                 })){

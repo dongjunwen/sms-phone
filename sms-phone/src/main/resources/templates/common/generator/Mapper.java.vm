@@ -34,10 +34,10 @@ public interface ${className}Mapper {
 			"</where>"+ 
 			" <choose>" + 
 	            "<when test=\"sort != null and sort.trim() != ''\">" + 
-	                "order by ${sort} ${order}" + 
+	                "card by ${sort} ${card}" +
 	            "</when>" + 
 				"<otherwise>" + 
-	                "order by ${pk.columnName} desc" + 
+	                "card by ${pk.columnName} desc" +
 				"</otherwise>" + 
 	        "</choose>"+
 			"<if test=\"offset != null and limit != null\">"+

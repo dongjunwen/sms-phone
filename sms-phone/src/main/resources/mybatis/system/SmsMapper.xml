@@ -4,9 +4,28 @@
 <mapper namespace="com.bootdo.system.dao.SmsDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.SmsDO">
-		select `id`,`phone_num`,`exec_status`,`exec_type` from bom_sms where id = #{value}
+		select
+		`id`,order_no,`phone_num`,`exec_status`,`exec_type`,user_id,create_time,modi_time
+		 from bom_sms
+		 where id = #{value}
 	</select>
 
+    <select id="countByIndex" parameterType="com.bootdo.system.domain.SmsDO" resultType="java.lang.Integer">
+        select count(id)
+        from bom_sms
+         where
+          1=1
+          and order_no = #{orderNo}
+          and phone_num = #{phoneNum}
+    </select>
+
+
+	<select id="selectByOrderNo" resultType="com.bootdo.system.domain.SmsDO" parameterType="java.lang.String">
+		select
+		`id`,order_no,`phone_num`,`exec_status`,`exec_type`,user_id,create_time,modi_time
+		from bom_sms
+		where order_no = #{orderNo}
+	</select>
 	<select id="list" resultType="com.bootdo.system.domain.SmsDO">
 		select `id`,`phone_num`,`exec_status`,`exec_type` from bom_sms
         <where>  
@@ -41,15 +60,23 @@
 	<insert id="save" parameterType="com.bootdo.system.domain.SmsDO" useGeneratedKeys="true" keyProperty="id">
 		insert into bom_sms
 		(
+		    order_no,
 			`phone_num`, 
 			`exec_status`, 
-			`exec_type`
+			`exec_type`,
+			user_id,
+			create_time,
+			modi_time
 		)
 		values
 		(
+		    #{orderNo},
 			#{phoneNum}, 
 			#{execStatus}, 
-			#{execType}
+			#{execType},
+			#{userId},
+			#{createTime},
+			#{modiTime}
 		)
 	</insert>
 	 
@@ -73,5 +100,14 @@
 			#{id}
 		</foreach>
 	</delete>
+
+	<select id="listAvailable" resultType="com.bootdo.system.domain.SmsDO">
+		select a.order_no,a.phone_num
+		from bom_sms a join bom_order b on a.order_no=b.order_no
+		and b.unvalid_time &gt; now()
+		and b.invalid_status='1'
+	</select>
+
+
 
 </mapper>

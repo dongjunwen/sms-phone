@@ -27,4 +27,10 @@ public interface SmsService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    void addPhone(SmsDO smsDO);
+
+	List<SmsDO> listAvailable();
+
+    List<SmsDO> selectByOrderNo(String orderNo);
 }

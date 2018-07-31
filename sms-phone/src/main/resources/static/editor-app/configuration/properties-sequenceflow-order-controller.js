@@ -18,14 +18,14 @@
  */
 
 /*
- * Sequence flow order controller
+ * Sequence flow card controller
  */
 
 var KisBpmSequenceFlowOrderCtrl = [ '$scope', '$modal', '$timeout', '$translate', function($scope, $modal, $timeout, $translate) {
 
     // Config for the modal window
     var opts = {
-        template:  'editor-app/configuration/properties/sequenceflow-order-popup.html?version=' + Date.now(),
+        template:  'editor-app/configuration/properties/sequenceflow-card-popup.html?version=' + Date.now(),
         scope: $scope
     };
 
@@ -54,7 +54,7 @@ var KisBpmSequenceFlowOrderPopupCtrl = ['$scope', '$translate', function($scope,
         console.log('Programmatic error: no selected shape found');
     }
 
-    // Now we can apply the order which was (possibly) previously saved
+    // Now we can apply the card which was (possibly) previously saved
     var orderedOutgoingSequenceFlow = [];
     if ($scope.property.value && $scope.property.value.sequenceFlowOrder) {
 

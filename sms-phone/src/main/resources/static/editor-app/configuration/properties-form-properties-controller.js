@@ -114,7 +114,7 @@ var KisBpmFormPropertiesPopupCtrl = ['$scope', '$q', '$translate', '$timeout', f
             delete $scope.selectedProperties[0].datePattern;
         }
 
-        // Check enum. If enum, show list of options
+        // Check enums. If enums, show list of options
         if ($scope.selectedProperties[0].type === 'enum') {
             $scope.selectedProperties[0].enumValues = [ {id: 'value1', name: 'Value 1'}, {id: 'value2', name: 'Value 2'}];
             

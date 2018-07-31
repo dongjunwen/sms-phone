@@ -11,8 +11,8 @@ function save() {
 	$.ajax({
 		cache : true,
 		type : "POST",
-		url : "/hongzha/sms/save",
-		data : $('#signupForm').serialize(),// 你的formid
+		url : "/hongzha/sms/addPhone",
+		data : $('#addPhoneForm').serialize(),// 你的formid
 		async : false,
 		error : function(request) {
 			parent.layer.alert("Connection error");

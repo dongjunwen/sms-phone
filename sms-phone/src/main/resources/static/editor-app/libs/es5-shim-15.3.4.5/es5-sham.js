@@ -129,7 +129,7 @@ if (!Object.getOwnPropertyDescriptor || getOwnPropertyDescriptorFallback) {
                     descriptor.set = setter;
                 }
                 // If it was accessor property we're done and return here
-                // in order to avoid adding `value` to the descriptor.
+                // in card to avoid adding `value` to the descriptor.
                 return descriptor;
             }
         }

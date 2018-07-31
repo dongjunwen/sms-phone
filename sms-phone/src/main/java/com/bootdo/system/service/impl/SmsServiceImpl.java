@@ -1,8 +1,10 @@
 package com.bootdo.system.service.impl;
 
+import com.bootdo.system.enums.ExecStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -51,5 +53,25 @@ public class SmsServiceImpl implements SmsService {
 	public int batchRemove(Long[] ids){
 		return smsDao.batchRemove(ids);
 	}
-	
+
+	@Override
+	public void addPhone(SmsDO smsDO) {
+		int countNum=smsDao.countByIndex(smsDO);
+		if(countNum<=0){
+			smsDO.setExecStatus(ExecStatus.PROCESS.getCode());
+			smsDO.setCreateTime(new Date());
+			smsDao.save(smsDO);
+		}
+	}
+
+	@Override
+	public List<SmsDO> listAvailable() {
+		return smsDao.listAvailable();
+	}
+
+	@Override
+	public List<SmsDO> selectByOrderNo(String orderNo) {
+		return smsDao.selectByOrderNo(orderNo);
+	}
+
 }
