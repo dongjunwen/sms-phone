@@ -77,6 +77,24 @@
 		sys_user_role where
 		user_id=#{userId}
 	</select>
+	<select id="listRoles" resultType="java.lang.String">
+		select b.role_sign
+		 from
+		sys_user_role a join sys_role b on a.role_id=b.role_id
+		 where
+		user_id=#{userId}
+	</select>
+
+	<select id="listRolesByUser" resultType="com.bootdo.system.domain.RoleDO">
+		select b.role_id,b.role_sign,b.role_name
+		from
+		sys_user_role a join sys_role b on a.role_id=b.role_id
+		where
+		user_id=#{userId}
+	</select>
+
+
+
 
 	<delete id="removeByUserId">
 		delete from sys_user_role where user_id=#{userId}

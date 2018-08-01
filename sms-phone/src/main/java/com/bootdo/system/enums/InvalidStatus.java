@@ -4,15 +4,14 @@ package com.bootdo.system.enums;
  * @Author:luiz
  * @Date: 2018/7/31 13:37
  * @Descripton:
- *  生效状态 0:未使用 1:已使用 2:已过期
+ *  生效状态 0:生效 1:失效
  * @Modify :
  **/
-public enum OrderStatus {
-    INIT("0","未使用"),
-    USED("1","已使用"),
-    UNUSED("0","已过期");
+public enum InvalidStatus {
+    VALID("0","生效"),
+    UNVALID("1","失效");
 
-    OrderStatus(String code, String name) {
+    InvalidStatus(String code, String name) {
         this.code = code;
         this.name = name;
     }
@@ -34,5 +33,12 @@ public enum OrderStatus {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static InvalidStatus parse(String orderStatus) {
+        for(InvalidStatus orderStatusEnum: InvalidStatus.values()){
+                if(orderStatusEnum.getCode().equals(orderStatus)) return orderStatusEnum;
+        }
+        return null;
     }
 }

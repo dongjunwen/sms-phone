@@ -51,8 +51,8 @@ public class SmsSndJob {
         dataDisruptor.start();
 
     }
-    //每隔30秒执行
-    @Scheduled(fixedRate = 120000)
+    //每隔180秒执行
+    @Scheduled(fixedRate = 180000)
     public void scdJob(){
         //获取其队列
         RingBuffer<SmsBean> ringBuffer = dataDisruptor.getRingBuffer();

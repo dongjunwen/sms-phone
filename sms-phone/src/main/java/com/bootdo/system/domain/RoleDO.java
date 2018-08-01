@@ -6,6 +6,7 @@ import java.util.List;
 public class RoleDO {
 	
 	private Long roleId;
+	private String roleCode;
 	private String roleName;
 	private String roleSign;
 	private String remark;
@@ -20,6 +21,14 @@ public class RoleDO {
 
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
+	}
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 	public String getRoleName() {

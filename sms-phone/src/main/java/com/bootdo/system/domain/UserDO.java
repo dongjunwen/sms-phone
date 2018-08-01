@@ -3,6 +3,7 @@ package com.bootdo.system.domain;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class UserDO implements Serializable {
     private static final long serialVersionUID = 1L;
     //
     private Long userId;
+    private Long puserId;
     // 用户名
     private String username;
     // 用户真实姓名
@@ -21,6 +23,7 @@ public class UserDO implements Serializable {
     private String deptName;
     // 邮箱
     private String email;
+    private String QQ;
     // 手机号
     private String mobile;
     // 状态 0:禁用，1:正常
@@ -31,8 +34,13 @@ public class UserDO implements Serializable {
     private Date gmtCreate;
     // 修改时间
     private Date gmtModified;
+    private Long role;
     //角色
     private List<Long> roleIds;
+    //角色名称
+    private String roleName;
+    //可用余额
+    private BigDecimal acctAmt;
     //性别
     private Long sex;
     //出身日期
@@ -50,6 +58,30 @@ public class UserDO implements Serializable {
     private String city;
     //所在地区
     private String district;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public BigDecimal getAcctAmt() {
+        return acctAmt;
+    }
+
+    public void setAcctAmt(BigDecimal acctAmt) {
+        this.acctAmt = acctAmt;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
+    }
 
     public Long getUserId() {
         return userId;
@@ -219,16 +251,34 @@ public class UserDO implements Serializable {
         this.district = district;
     }
 
+    public Long getPuserId() {
+        return puserId;
+    }
+
+    public void setPuserId(Long puserId) {
+        this.puserId = puserId;
+    }
+
+    public String getQQ() {
+        return QQ;
+    }
+
+    public void setQQ(String QQ) {
+        this.QQ = QQ;
+    }
+
     @Override
     public String toString() {
         return "UserDO{" +
                 "userId=" + userId +
+                ", puserId=" + puserId +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", deptId=" + deptId +
                 ", deptName='" + deptName + '\'' +
                 ", email='" + email + '\'' +
+                ", QQ='" + QQ + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", status=" + status +
                 ", userIdCreate=" + userIdCreate +

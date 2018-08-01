@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 
-<head th:include="com.bootdo.system/user/include :: header"></head>
+<head th:include="system/user/include :: header"></head>
 
 <body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -14,7 +14,7 @@
                     <div class="gg-nav">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#basic_info" data-toggle="tab">基本资料</a></li>
-                            <li><a href="#photo_info" data-toggle="tab">头像修改</a></li>
+                           <!-- <li><a href="#photo_info" data-toggle="tab">头像修改</a></li>-->
                             <li><a href="#pwd_info" data-toggle="tab">修改密码</a></li>
                         </ul>
                     </div>
@@ -217,7 +217,7 @@
         </div>
     </div>
 </div>
-<div th:include="com.bootdo.system/user/include :: footer"></div>
+<div th:include="system/user/include :: footer"></div>
 <script type="text/javascript" src="/js/appjs/sys/user/personal.js"></script>
 </body>
 </html>

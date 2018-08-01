@@ -25,6 +25,8 @@ public class OrderDO implements Serializable {
 	private String invalidStatus;
 	//生效天数
 	private Integer invalidDays;
+	//生效类型
+	private String invalidType;
 	//创建时间
 	private Date createTime;
 	//使用时间
@@ -33,6 +35,11 @@ public class OrderDO implements Serializable {
 	private Date unvalidTime;
 	//使用人
 	private Long useUserId;
+	private String useUserName;
+	private String useUserQq;
+	//拥有人
+	private Long ownerUserId;
+
 
 	/**
 	 * 设置：主键ID
@@ -137,5 +144,37 @@ public class OrderDO implements Serializable {
 
 	public void setUseUserId(Long useUserId) {
 		this.useUserId = useUserId;
+	}
+
+	public String getInvalidType() {
+		return invalidType;
+	}
+
+	public void setInvalidType(String invalidType) {
+		this.invalidType = invalidType;
+	}
+
+	public Long getOwnerUserId() {
+		return ownerUserId;
+	}
+
+	public void setOwnerUserId(Long ownerUserId) {
+		this.ownerUserId = ownerUserId;
+	}
+
+	public String getUseUserName() {
+		return useUserName;
+	}
+
+	public void setUseUserName(String useUserName) {
+		this.useUserName = useUserName;
+	}
+
+	public String getUseUserQq() {
+		return useUserQq;
+	}
+
+	public void setUseUserQq(String useUserQq) {
+		this.useUserQq = useUserQq;
 	}
 }

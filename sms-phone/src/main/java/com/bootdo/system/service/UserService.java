@@ -30,7 +30,7 @@ public interface UserService {
 
 	boolean exit(Map<String, Object> params);
 
-	Set<String> listRoles(Long userId);
+	List<String> listRoles(Long userId);
 
 	int resetPwd(UserVO userVO,UserDO userDO) throws Exception;
 	int adminResetPwd(UserVO userVO) throws Exception;

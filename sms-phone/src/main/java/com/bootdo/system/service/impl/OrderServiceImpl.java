@@ -57,4 +57,14 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.selectByOrderNo(orderNo);
 	}
 
+	@Override
+	public void batchDisable(Integer[] ids) {
+		 orderDao.batchDisable(ids);
+	}
+
+	@Override
+	public void batchEnable(Integer[] ids) {
+		orderDao.batchEnable(ids);
+	}
+
 }

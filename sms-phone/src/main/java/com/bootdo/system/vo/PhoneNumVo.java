@@ -13,6 +13,7 @@ public class PhoneNumVo {
     private String phoneNum3;
     private String phoneNum4;
     private String phoneNum5;
+    private String phoneNum6;
 
     public String getOrderNo() {
         return orderNo;
@@ -60,5 +61,13 @@ public class PhoneNumVo {
 
     public void setPhoneNum5(String phoneNum5) {
         this.phoneNum5 = phoneNum5;
+    }
+
+    public String getPhoneNum6() {
+        return phoneNum6;
+    }
+
+    public void setPhoneNum6(String phoneNum6) {
+        this.phoneNum6 = phoneNum6;
     }
 }

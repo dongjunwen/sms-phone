@@ -1,5 +1,7 @@
 package com.bootdo.system.vo;
 
+import com.bootdo.system.enums.InvalidDayType;
+
 /**
  * @Author:luiz
  * @Date: 2018/7/31 10:48
@@ -7,8 +9,17 @@ package com.bootdo.system.vo;
  * @Modify :
  **/
 public class CardVo {
+    private InvalidDayType invalidDayType;
     private int invalidDays;
     private int cardNum;
+
+    public InvalidDayType getInvalidDayType() {
+        return invalidDayType;
+    }
+
+    public void setInvalidDayType(InvalidDayType invalidDayType) {
+        this.invalidDayType = invalidDayType;
+    }
 
     public int getInvalidDays() {
         return invalidDays;

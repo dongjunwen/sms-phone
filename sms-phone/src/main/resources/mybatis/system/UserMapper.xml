@@ -4,13 +4,15 @@
 <mapper namespace="com.bootdo.system.dao.UserDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.UserDO">
-		select `user_id`,`username`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user where user_id = #{value}
+		select `user_id`,`username`,`name`,QQ,`password`,`dept_id`,`email`,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user where user_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.UserDO">
-		select `user_id`,`username`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user
+		select `user_id`,puser_id,`username`,`name`,`password`,`dept_id`,`email`,QQ,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district`
+        from sys_user
         <where>  
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+				  <if test="puserId != null and puserId != ''"> and puser_id = #{puserId} </if>
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -47,6 +49,7 @@
 		select count(*) from sys_user
 		 <where>  
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+				  <if test="puserId != null and puserId != ''"> and puser_id = #{puserId} </if>
 		  		  <if test="username != null and username != ''"> and username = #{username} </if>
 		  		  <if test="name != null and name != ''"> and name = #{name} </if>
 		  		  <if test="password != null and password != ''"> and password = #{password} </if>
@@ -71,8 +74,10 @@
 	<insert id="save" parameterType="com.bootdo.system.domain.UserDO" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user
 		(
+			puser_id,
 			`username`, 
-			`name`, 
+			`name`,
+			 QQ,
 			`password`, 
 			`dept_id`, 
 			`email`, 
@@ -92,8 +97,10 @@
 		)
 		values
 		(
+			#{puserId},
 			#{username}, 
-			#{name}, 
+			#{name},
+			#{QQ},
 			#{password}, 
 			#{deptId}, 
 			#{email}, 
@@ -121,6 +128,7 @@
 			<if test="password != null">`password` = #{password}, </if>
 			<if test="deptId != null">`dept_id` = #{deptId}, </if>
 			<if test="email != null">`email` = #{email}, </if>
+			<if test="QQ != null">`qq` = #{QQ}, </if>
 			<if test="mobile != null">`mobile` = #{mobile}, </if>
 			<if test="status != null">`status` = #{status}, </if>
 			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>

@@ -32,7 +32,8 @@ function load() {
 							return {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，card：desc或者,以及所有列的键值对
 								limit: params.limit,
-								offset:params.offset
+								offset:params.offset,
+								orderNo:$('#orderNo').val()
 					           // name:$('#searchName').val(),
 					           // username:$('#searchName').val()
 							};
@@ -49,7 +50,7 @@ function load() {
 								},
 																{
 									field : 'id', 
-									title : '主键ID' 
+									title : '序号'
 								},
 																{
 									field : 'orderNo', 
@@ -60,22 +61,17 @@ function load() {
 									title : '名称' 
 								},
 								{
-									field : 'invalidStatus', 
-									title : '生效状态 0:未使用 1:已使用' ,
-									formatter : function(item, index) {
-										if (item.invalidStatus === '0') {
-											return '<span class="label label-danger">未使用</span>';
-										} else if (item.invalidStatus === '1') {
-											return '<span class="label label-primary">已使用</span>';
-										}else{
-                                            return item.invalidStatus;
-                                        }
-									}
+									field : 'invalidStatusName',
+									title : '生效状态' ,
+								},
+								/*{
+									field : 'invalidTypeName',
+									title : '生效时长类型'
 								},
 								{
 									field : 'invalidDays', 
-									title : '生效天数' 
-								},
+									title : '生效时长'
+								},*/
 								{
 									field : 'createTime', 
 									title : '创建时间' 
@@ -88,14 +84,19 @@ function load() {
 									field : 'unvalidTime', 
 									title : '失效时间' 
 								},
+								{
+									field : 'useUserName',
+									title : '使用人'
+								},
                             {
-                                field : 'userId',
-                                title : '使用人'
-                            },
-							{
+                                field : 'useUserQq',
+                                title : '使用人QQ'
+                            }
+							/*,{
 									title : '操作',
 									field : 'id',
 									align : 'center',
+									hidden:true,
 									formatter : function(value, row, index) {
 										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
 												+ row.id
@@ -108,7 +109,10 @@ function load() {
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;
 									}
-								} ]
+								}
+								*/
+
+								]
 					});
 }
 function reLoad() {
@@ -134,6 +138,8 @@ function edit(id) {
 		content : prefix + '/edit/' + id // iframe的url
 	});
 }
+
+
 function remove(id) {
 	layer.confirm('确定要删除选中的记录？', {
 		btn : [ '确定', '取消' ]
@@ -156,8 +162,6 @@ function remove(id) {
 	})
 }
 
-function resetPwd(id) {
-}
 function batchRemove() {
 	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
 	if (rows.length == 0) {
@@ -192,6 +196,76 @@ function batchRemove() {
 
 	});
 }
+
+function disableOrder() {
+    var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+    if (rows.length == 0) {
+        layer.msg("请选择要禁用的数据");
+        return;
+    }
+    layer.confirm("确认要禁用选中的'" + rows.length + "'条数据吗?", {
+        btn : [ '确定', '取消' ]
+        // 按钮
+    }, function() {
+        var ids = new Array();
+        // 遍历所有选择的行数据，取每条数据对应的ID
+        $.each(rows, function(i, row) {
+            ids[i] = row['id'];
+        });
+        $.ajax({
+            type : 'POST',
+            data : {
+                "ids" : ids
+            },
+            url : prefix + '/batchDisable',
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }, function() {
+
+    });
+}
+function enableOrder() {
+    var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+    if (rows.length == 0) {
+        layer.msg("请选择要启用的数据");
+        return;
+    }
+    layer.confirm("确认要启用选中的'" + rows.length + "'条数据吗?", {
+        btn : [ '确定', '取消' ]
+        // 按钮
+    }, function() {
+        var ids = new Array();
+        // 遍历所有选择的行数据，取每条数据对应的ID
+        $.each(rows, function(i, row) {
+            ids[i] = row['id'];
+        });
+        $.ajax({
+            type : 'POST',
+            data : {
+                "ids" : ids
+            },
+            url : prefix + '/batchEnable',
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    reLoad();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }, function() {
+
+    });
+}
+
 
 function genOrder() {
 

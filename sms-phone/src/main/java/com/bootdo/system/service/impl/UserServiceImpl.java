@@ -8,6 +8,8 @@ import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.*;
+import com.bootdo.system.domain.*;
+import com.bootdo.system.service.UserAccountService;
 import com.bootdo.system.vo.UserVO;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
@@ -22,9 +24,6 @@ import com.bootdo.common.domain.Tree;
 import com.bootdo.system.dao.DeptDao;
 import com.bootdo.system.dao.UserDao;
 import com.bootdo.system.dao.UserRoleDao;
-import com.bootdo.system.domain.DeptDO;
-import com.bootdo.system.domain.UserDO;
-import com.bootdo.system.domain.UserRoleDO;
 import com.bootdo.system.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +39,8 @@ public class UserServiceImpl implements UserService {
     UserRoleDao userRoleMapper;
     @Autowired
     DeptDao deptMapper;
+    @Autowired
+    UserAccountService userAccountService;
     @Autowired
     private FileService sysFileService;
     @Autowired
@@ -58,7 +59,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDO> list(Map<String, Object> map) {
-        return userMapper.list(map);
+        List<UserDO>  userDOS= userMapper.list(map);
+        for(UserDO userDO:userDOS){
+            List<RoleDO> roleDOS=userRoleMapper.listRolesByUser(userDO.getUserId());
+            if(roleDOS!=null && roleDOS.size()>=1){
+                RoleDO roleDO=roleDOS.get(0);
+                userDO.setRole(roleDO.getRoleId());
+                userDO.setRoleName(roleDO.getRoleName());
+            }
+            UserAccountDO userAccountDO=userAccountService.selectByUserId(userDO.getUserId());
+            if(userAccountDO!=null)
+            userDO.setAcctAmt(userAccountDO.getAcctAmt());
+        }
+        return userDOS;
     }
 
     @Override
@@ -119,8 +132,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<String> listRoles(Long userId) {
-        return null;
+    public List<String> listRoles(Long userId) {
+        return userRoleMapper.listRoles(userId);
     }
 
     @Override

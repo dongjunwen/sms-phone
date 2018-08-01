@@ -105,7 +105,7 @@
 		select a.order_no,a.phone_num
 		from bom_sms a join bom_order b on a.order_no=b.order_no
 		and b.unvalid_time &gt; now()
-		and b.invalid_status='1'
+		and b.invalid_status='0'
 	</select>
 
 

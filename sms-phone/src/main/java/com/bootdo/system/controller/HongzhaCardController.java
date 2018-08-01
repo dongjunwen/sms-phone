@@ -2,21 +2,21 @@ package com.bootdo.system.controller;
 
 import com.bootdo.common.utils.*;
 import com.bootdo.system.domain.OrderDO;
-import com.bootdo.system.domain.SmsDO;
+import com.bootdo.system.enums.InvalidDayType;
+import com.bootdo.system.enums.InvalidStatus;
+import com.bootdo.system.enums.RoleCodeEnum;
 import com.bootdo.system.service.OrderService;
-import com.bootdo.system.service.SmsService;
+import com.bootdo.system.service.UserService;
 import com.bootdo.system.vo.CardVo;
-import io.swagger.models.auth.In;
-import org.apache.commons.lang3.RandomUtils;
+import com.bootdo.system.vo.OrderResultVo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author:luiz
@@ -30,6 +30,8 @@ public class HongzhaCardController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping()
     @RequiresPermissions("hongzha:card:card")
@@ -42,13 +44,36 @@ public class HongzhaCardController {
     @RequiresPermissions("hongzha:card:card")
     public PageUtils list(@RequestParam Map<String, Object> params){
         //查询列表数据
+        putUser(params);
         Query query = new Query(params);
         List<OrderDO> smsList = orderService.list(query);
+        List<OrderResultVo> orderResultVos=new ArrayList<>();
+        for(OrderDO orderDO:smsList){
+            OrderResultVo orderResultVo=new OrderResultVo();
+            BeanUtils.copyProperties(orderDO,orderResultVo);
+            orderResultVo.setInvalidStatusName(InvalidStatus.parse(orderDO.getInvalidStatus()).getName());
+            orderResultVo.setInvalidTypeName(InvalidDayType.parse(orderDO.getInvalidType()).getName());
+            orderResultVos.add(orderResultVo);
+        }
         int total = orderService.count(query);
-        PageUtils pageUtils = new PageUtils(smsList, total);
+        PageUtils pageUtils = new PageUtils(orderResultVos, total);
         return pageUtils;
     }
 
+    /**
+     * 管理员可以查看所有
+     * @param params
+     */
+    private void putUser(Map<String, Object> params) {
+        params.put("ownerUserId",ShiroUtils.getUserId());
+        long userId=ShiroUtils.getUserId();
+        List<String> rolSet=userService.listRoles(userId);
+        for(String roleCode:rolSet){
+            if(RoleCodeEnum.ADMIN.getCode().equals(roleCode)) {
+                params.remove("ownerUserId");
+            }
+        }
+    }
 
 
     @GetMapping("/add/{orderNo}")
@@ -73,16 +98,19 @@ public class HongzhaCardController {
     @PostMapping("/genOrder")
     @RequiresPermissions("hongzha:card:genOrder")
     public R save(CardVo cardVo){
+        InvalidDayType invalidDayType=cardVo.getInvalidDayType();
         int cardNum=cardVo.getCardNum();
         int invalidDays=cardVo.getInvalidDays();
         for(int i=0;i<=cardNum-1;i++){
             OrderDO orderDO=new OrderDO();
-            orderDO.setOrderName(invalidDays+"天卡");
+            orderDO.setOrderName(invalidDays+invalidDayType.getName()+"卡");
+            orderDO.setInvalidType(invalidDayType.getCode());
             orderDO.setCreateTime(new Date());
             orderDO.setInvalidDays(invalidDays);
-            orderDO.setInvalidStatus("0");
+            orderDO.setInvalidStatus(InvalidStatus.VALID.getCode());
             String randomStr= IDUtils.genIdStr("");
             orderDO.setOrderNo(MD5Utils.encrypt(randomStr));
+            orderDO.setOwnerUserId(ShiroUtils.getUserId());
             orderService.save(orderDO);
         }
         return R.ok();
@@ -121,4 +149,30 @@ public class HongzhaCardController {
         orderService.batchRemove(ids);
         return R.ok();
     }
+
+
+    /**
+     * 禁用
+     */
+    @PostMapping( "/batchDisable")
+    @ResponseBody
+    @RequiresPermissions("hongzha:card:batchDisable")
+    public R batchDisable(@RequestParam("ids[]") Integer[] ids){
+        orderService.batchDisable(ids);
+        return R.ok();
+    }
+    /**
+     * 启用
+     */
+    @PostMapping( "/batchEnable")
+    @ResponseBody
+    @RequiresPermissions("hongzha:card:batchEnable")
+    public R batchEnable(@RequestParam("ids[]") Integer[] ids){
+        orderService.batchEnable(ids);
+        return R.ok();
+    }
+
+
+
+
 }

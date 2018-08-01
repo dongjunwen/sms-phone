@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.AccountLogDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.AccountLogDO">
+		select `id`,`acct_id`,`user_id`,`oper_type`,`amt_direct`,`oper_amt`,`acct_amt_b`,`acct_amt_a`,`oper_status`,`oper_msg`,`create_time` from sys_account_log where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.AccountLogDO">
+		select `id`,`acct_id`,`user_id`,`oper_type`,`amt_direct`,`oper_amt`,`acct_amt_b`,`acct_amt_a`,`oper_status`,`oper_msg`,`create_time` from sys_account_log
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="acctId != null and acctId != ''"> and acct_id = #{acctId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="operType != null and operType != ''"> and oper_type = #{operType} </if>
+		  		  <if test="amtDirect != null and amtDirect != ''"> and amt_direct = #{amtDirect} </if>
+		  		  <if test="operAmt != null and operAmt != ''"> and oper_amt = #{operAmt} </if>
+		  		  <if test="acctAmtB != null and acctAmtB != ''"> and acct_amt_b = #{acctAmtB} </if>
+		  		  <if test="acctAmtA != null and acctAmtA != ''"> and acct_amt_a = #{acctAmtA} </if>
+		  		  <if test="operStatus != null and operStatus != ''"> and oper_status = #{operStatus} </if>
+		  		  <if test="operMsg != null and operMsg != ''"> and oper_msg = #{operMsg} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_account_log
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="acctId != null and acctId != ''"> and acct_id = #{acctId} </if>
+		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+		  		  <if test="operType != null and operType != ''"> and oper_type = #{operType} </if>
+		  		  <if test="amtDirect != null and amtDirect != ''"> and amt_direct = #{amtDirect} </if>
+		  		  <if test="operAmt != null and operAmt != ''"> and oper_amt = #{operAmt} </if>
+		  		  <if test="acctAmtB != null and acctAmtB != ''"> and acct_amt_b = #{acctAmtB} </if>
+		  		  <if test="acctAmtA != null and acctAmtA != ''"> and acct_amt_a = #{acctAmtA} </if>
+		  		  <if test="operStatus != null and operStatus != ''"> and oper_status = #{operStatus} </if>
+		  		  <if test="operMsg != null and operMsg != ''"> and oper_msg = #{operMsg} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.AccountLogDO" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_account_log
+		(
+			`acct_id`, 
+			`user_id`, 
+			`oper_type`, 
+			`amt_direct`, 
+			`oper_amt`, 
+			`acct_amt_b`, 
+			`acct_amt_a`, 
+			`oper_status`, 
+			`oper_msg`, 
+			`create_time`
+		)
+		values
+		(
+			#{acctId}, 
+			#{userId}, 
+			#{operType}, 
+			#{amtDirect}, 
+			#{operAmt}, 
+			#{acctAmtB}, 
+			#{acctAmtA}, 
+			#{operStatus}, 
+			#{operMsg}, 
+			#{createTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.AccountLogDO">
+		update sys_account_log 
+		<set>
+			<if test="acctId != null">`acct_id` = #{acctId}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="operType != null">`oper_type` = #{operType}, </if>
+			<if test="amtDirect != null">`amt_direct` = #{amtDirect}, </if>
+			<if test="operAmt != null">`oper_amt` = #{operAmt}, </if>
+			<if test="acctAmtB != null">`acct_amt_b` = #{acctAmtB}, </if>
+			<if test="acctAmtA != null">`acct_amt_a` = #{acctAmtA}, </if>
+			<if test="operStatus != null">`oper_status` = #{operStatus}, </if>
+			<if test="operMsg != null">`oper_msg` = #{operMsg}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_account_log where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_account_log where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import com.bootdo.system.enums.RoleCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +56,27 @@ public class RoleServiceImpl implements RoleService {
             }
         }
         return roles;
+    }
+
+
+    @Override
+    public List<RoleDO> listNew(Long userId) {
+        List<Long> rolesIds = userRoleMapper.listRoleId(userId);
+        List<RoleDO> roles = roleMapper.list(new HashMap<>(16));
+        List<RoleDO> retRoles=new ArrayList<>();
+        for (RoleDO roleDO : roles) {
+            roleDO.setRoleSign("false");
+            for (Long roleId : rolesIds) {
+                if (Objects.equals(roleDO.getRoleId(), roleId)) {
+                    roleDO.setRoleSign("true");
+                    break;
+                }
+            }
+            if(!RoleCodeEnum.ADMIN.getCode().equals(roleDO.getRoleCode())){
+                retRoles.add(roleDO);
+            }
+        }
+        return retRoles;
     }
     @Transactional
     @Override

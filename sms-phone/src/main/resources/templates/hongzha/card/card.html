@@ -9,8 +9,16 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<form id="carForm">
+							<div class="columns pull-left col-md-1 nopadding">
+								<label>有效时长类型</label>
+								<select id="invalidDayType" name="invalidDayType">
+									<option value="MIN" >分钟</option>
+									<option value="HOU" >小时</option>
+									<option value="DAY" selected>天</option>
+								</select>
+							</div>
 						<div class="columns pull-left col-md-2 nopadding">
-							<label>天数:</label><input id="invalidDays" name="invalidDays" type="text" class="form-control" placeholder="请输入天数">
+							<label>有效时长(天、分钟或小时):</label><input id="invalidDays" name="invalidDays" type="text" class="form-control" placeholder="请输入天数">
 						</div>
 						<div class="columns pull-left col-md-2 nopadding">
 							<label>数量:</label><input id="cardNum" name="cardNum" type="text" class="form-control" placeholder="请输入卡密数量">
@@ -18,9 +26,12 @@
 						</form>
 						<div class="columns pull-left">
 							<button shiro:hasPermission="hongzha:card:add" type="button" class="btn  btn-primary" onclick="genOrder()">
-								<i class="fa fa-plus" aria-hidden="true"></i>生成卡密
+								<!--<i class="fa fa-plus" aria-hidden="true"></i>-->生成卡密
 							</button>
-							<button class="btn btn-success" onclick="reLoad()">查询</button>
+							<input type="text" placeholder="请输入卡密" name="orderNo" id="orderNo">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>.
+							<button class="btn btn-error" onclick="disableOrder()">禁用</button>
+							<button class="btn btn-success" onclick="enableOrder()">启用</button>
 						</div>
 					</div>
 					<table id="exampleTable" data-mobile-responsive="true">
@@ -37,21 +48,17 @@
 				var s_resetPwd_h = 'hidden';
 			</script>
 		</div>
-		<div shiro:hasPermission="system:order:edit">
+		<div shiro:hasPermission="hongzha:order:edit">
 			<script type="text/javascript">
 				s_edit_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="system:order:remove">
+		<div shiro:hasPermission="hongzha:order:remove">
 			<script type="text/javascript">
 				var s_remove_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="system:order:resetPwd">
-			<script type="text/javascript">
-				var s_resetPwd_h = '';
-			</script>
-		</div>
+
 	</div>
 	<div th:include="include :: footer"></div>
 	<script type="text/javascript" src="/js/appjs/hongzha/card/card.js"></script>

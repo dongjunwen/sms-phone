@@ -31,4 +31,8 @@ public interface OrderDao {
 	int batchRemove(Integer[] ids);
 
     OrderDO selectByOrderNo(String orderNo);
+
+    void batchDisable(Integer[] ids);
+
+	void batchEnable(Integer[] ids);
 }

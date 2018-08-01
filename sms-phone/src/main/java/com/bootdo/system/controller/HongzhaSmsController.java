@@ -3,7 +3,8 @@ package com.bootdo.system.controller;
 import com.bootdo.common.utils.*;
 import com.bootdo.system.domain.OrderDO;
 import com.bootdo.system.domain.SmsDO;
-import com.bootdo.system.enums.OrderStatus;
+import com.bootdo.system.enums.InvalidDayType;
+import com.bootdo.system.enums.InvalidStatus;
 import com.bootdo.system.service.OrderService;
 import com.bootdo.system.service.SmsService;
 import com.bootdo.system.vo.PhoneNumVo;
@@ -50,15 +51,27 @@ public class HongzhaSmsController {
     public R valid( @RequestParam(value = "orderNo")String orderNo){
 
         OrderDO oldOrder=orderService.selectByOrderNo(orderNo);
-        if(oldOrder==null || !oldOrder.getInvalidStatus().equals(OrderStatus.INIT.getCode())){
+        if(oldOrder==null || !oldOrder.getInvalidStatus().equals(InvalidStatus.VALID.getCode())){
             return R.error("卡密无效");
         }
+        //1.判断代理商余额是否充足
+
+        //2.开始激活
         OrderDO orderDO=new OrderDO();
         orderDO.setOrderNo(orderNo);
         orderDO.setId(oldOrder.getId());
-        orderDO.setInvalidStatus(OrderStatus.USED.getCode());
         orderDO.setUseTime(new Date());
-        orderDO.setUnvalidTime(DateUtils.addDays(new Date(),oldOrder.getInvalidDays()));
+        if(InvalidDayType.MIN.getCode().equals(oldOrder.getInvalidType())){
+            orderDO.setUnvalidTime(DateUtils.addMinutes(new Date(),oldOrder.getInvalidDays()));
+        }else  if(InvalidDayType.HOU.getCode().equals(oldOrder.getInvalidType())){
+            orderDO.setUnvalidTime(DateUtils.addHours(new Date(),oldOrder.getInvalidDays()));
+        }else  if(InvalidDayType.DAY.getCode().equals(oldOrder.getInvalidType())){
+            orderDO.setUnvalidTime(DateUtils.addDays(new Date(),oldOrder.getInvalidDays()));
+        }else  if(InvalidDayType.MON.getCode().equals(oldOrder.getInvalidType())){
+            orderDO.setUnvalidTime(DateUtils.addMonths(new Date(),oldOrder.getInvalidDays()));
+        }else  if(InvalidDayType.YEA.getCode().equals(oldOrder.getInvalidType())){
+            orderDO.setUnvalidTime(DateUtils.addYears(new Date(),oldOrder.getInvalidDays()));
+        }
         orderDO.setUseUserId(ShiroUtils.getUserId());
         orderService.update(orderDO);
         return R.ok();
@@ -111,6 +124,10 @@ public class HongzhaSmsController {
                 smsDO.setPhoneNum(phoneNumVo.getPhoneNum5());
                 smsService.addPhone(smsDO);
             }
+            if(StringUtils.isNotEmpty(phoneNumVo.getPhoneNum6())){
+                smsDO.setPhoneNum(phoneNumVo.getPhoneNum6());
+                smsService.addPhone(smsDO);
+            }
         }catch (Exception e){
             return R.error();
         }
@@ -150,6 +167,8 @@ public class HongzhaSmsController {
                 phoneNumVo.setPhoneNum4(smsDO.getPhoneNum());
             }else if(i==4){
                 phoneNumVo.setPhoneNum5(smsDO.getPhoneNum());
+            }else if(i==5){
+                phoneNumVo.setPhoneNum6(smsDO.getPhoneNum());
             }else{
                 break;
             }
