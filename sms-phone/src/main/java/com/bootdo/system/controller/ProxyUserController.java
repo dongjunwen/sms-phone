@@ -50,7 +50,7 @@ public class ProxyUserController extends BaseController {
 	@ResponseBody
 	PageUtils list(@RequestParam Map<String, Object> params) {
 		// 查询列表数据
-		params.put("puserId", ShiroUtils.getUserId());
+		params.put("fhuserId", ShiroUtils.getUserId());
 		Query query = new Query(params);
 		List<UserDO> sysUserList = userService.list(query);
 		int total = userService.count(query);
@@ -173,6 +173,7 @@ public class ProxyUserController extends BaseController {
 			accountLogDO.setOperMsg("充值金额"+userRechargeVO.getRechargeAmt());
 			accountLogDO.setOperType("RECHARGE");
 			accountLogDO.setOperStatus(2);
+			accountLogDO.setCreateTime(new Date());
 			accountLogService.save(accountLogDO);
 		}catch (Exception e){
 			return R.error(e.getMessage());

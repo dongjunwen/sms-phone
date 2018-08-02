@@ -22,8 +22,11 @@ public class AccountLogDO implements Serializable {
 	private Long acctId;
 	//用户Id
 	private Long userId;
+	private String userName;
+	private String userQq;
 	//操作类型
 	private String operType;
+	private String operTypeName;
 	//资金方向 + 增加 - 减小
 	private String amtDirect;
 	//操作金额
@@ -34,6 +37,7 @@ public class AccountLogDO implements Serializable {
 	private BigDecimal acctAmtA;
 	//操作状态 0:初始化 1:处理中 2:处理成功 3:处理失败
 	private Integer operStatus;
+	private String operStatusName;
 	//操作内容
 	private String operMsg;
 	//操作时间
@@ -170,5 +174,37 @@ public class AccountLogDO implements Serializable {
 	 */
 	public Date getCreateTime() {
 		return createTime;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserQq() {
+		return userQq;
+	}
+
+	public void setUserQq(String userQq) {
+		this.userQq = userQq;
+	}
+
+	public String getOperStatusName() {
+		return operStatusName;
+	}
+
+	public void setOperStatusName(String operStatusName) {
+		this.operStatusName = operStatusName;
+	}
+
+	public String getOperTypeName() {
+		return operTypeName;
+	}
+
+	public void setOperTypeName(String operTypeName) {
+		this.operTypeName = operTypeName;
 	}
 }

@@ -3,6 +3,9 @@ package com.bootdo.system.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.bootdo.common.utils.ShiroUtils;
+import com.bootdo.system.enums.RoleCodeEnum;
+import com.bootdo.system.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -34,6 +37,8 @@ import com.bootdo.common.utils.R;
 public class AccountLogController {
 	@Autowired
 	private AccountLogService accountLogService;
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping()
 	@RequiresPermissions("system:accountLog:accountLog")
@@ -46,11 +51,27 @@ public class AccountLogController {
 	@RequiresPermissions("system:accountLog:accountLog")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
+		putUser(params);
         Query query = new Query(params);
 		List<AccountLogDO> accountLogList = accountLogService.list(query);
 		int total = accountLogService.count(query);
 		PageUtils pageUtils = new PageUtils(accountLogList, total);
 		return pageUtils;
+	}
+
+	/**
+	 * 管理员可以查看所有
+	 * @param params
+	 */
+	private void putUser(Map<String, Object> params) {
+		params.put("fhUserId",ShiroUtils.getUserId());
+		long userId=ShiroUtils.getUserId();
+		List<String> rolSet=userService.listRoles(userId);
+		for(String roleCode:rolSet){
+			if(RoleCodeEnum.ADMIN.getCode().equals(roleCode)) {
+				params.remove("fhUserId");
+			}
+		}
 	}
 	
 	@GetMapping("/add")

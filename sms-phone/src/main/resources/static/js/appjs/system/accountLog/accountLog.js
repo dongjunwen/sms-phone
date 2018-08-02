@@ -44,28 +44,33 @@ function load() {
 						// sortOrder.
 						// 返回false将会终止请求
 						columns : [
-								{
-									checkbox : true
+								/*{
+									checkbox : false
 								},
 																{
 									field : 'id', 
-									title : '主键ID' 
+									title : '主键ID' ,
+									hidden : true
 								},
 																{
 									field : 'acctId', 
-									title : '账户id' 
-								},
+									title : '账户id' ,
+                                    hidden : true
+                                                                },*/
 																{
-									field : 'userId', 
-									title : '用户Id' 
-								},
+									field : 'userName',
+									title : '昵称'
+								},{
+                                field : 'userQq',
+                                title : '用户QQ'
+                            },
 																{
-									field : 'operType', 
+									field : 'operTypeName',
 									title : '操作类型' 
 								},
 																{
 									field : 'amtDirect', 
-									title : '资金方向 + 增加 - 减小' 
+									title : '资金方向'
 								},
 																{
 									field : 'operAmt', 
@@ -80,8 +85,8 @@ function load() {
 									title : '操作后账户余额' 
 								},
 																{
-									field : 'operStatus', 
-									title : '操作状态 0:初始化 1:处理中 2:处理成功 3:处理失败' 
+									field : 'operStatusName',
+									title : '操作状态'
 								},
 																{
 									field : 'operMsg', 
@@ -90,7 +95,7 @@ function load() {
 																{
 									field : 'createTime', 
 									title : '操作时间' 
-								},
+								}/*,
 																{
 									title : '操作',
 									field : 'id',
@@ -107,7 +112,7 @@ function load() {
 												+ '\')"><i class="fa fa-key"></i></a> ';
 										return e + d ;
 									}
-								} ]
+								}*/ ]
 					});
 }
 function reLoad() {

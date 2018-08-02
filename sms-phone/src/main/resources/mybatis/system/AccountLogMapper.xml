@@ -8,11 +8,17 @@
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.AccountLogDO">
-		select `id`,`acct_id`,`user_id`,`oper_type`,`amt_direct`,`oper_amt`,`acct_amt_b`,`acct_amt_a`,`oper_status`,`oper_msg`,`create_time` from sys_account_log
+		select a.id,a.acct_id,a.user_id,a.oper_type,c.name oper_type_name,`amt_direct`,`oper_amt`,
+		`acct_amt_b`,`acct_amt_a`,`oper_status`,d.name oper_status_name,`oper_msg`,a.create_time,b.username userName,b.QQ userQq
+		from sys_account_log a
+		JOIN  sys_user b on a.user_id=b.user_id
+		JOIN  sys_dict c on a.oper_type=c.value and c.type='OPER_TYPE'
+		JOIN  sys_dict d on a.oper_status=d.value and d.type='OPER_STATUS'
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="acctId != null and acctId != ''"> and acct_id = #{acctId} </if>
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			      <if test="fhUserId != null and fhUserId != ''"> and (b.user_id = #{fhUserId} or b.puser_id= #{fhUserId})</if>
 		  		  <if test="operType != null and operType != ''"> and oper_type = #{operType} </if>
 		  		  <if test="amtDirect != null and amtDirect != ''"> and amt_direct = #{amtDirect} </if>
 		  		  <if test="operAmt != null and operAmt != ''"> and oper_amt = #{operAmt} </if>

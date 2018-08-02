@@ -57,6 +57,7 @@
 		  		  <if test="unvalidTime != null and unvalidTime != ''"> and unvalid_time = #{unvalidTime} </if>
                    <if test="useUserId != null and useUserId != ''"> and use_user_id = #{useUserId} </if>
 			 		<if test="ifValid != null and ifValid != ''"> and unvalid_time &lt;= now(); </if>
+			 <if test="ownerUserId != null and ownerUserId != ''"> and owner_user_id = #{ownerUserId} </if>
 		  		</where>
 	</select>
 	 

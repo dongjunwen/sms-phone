@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableCaching
 @ComponentScan("com.bootdo.*")
-//@EnableScheduling
+@EnableScheduling
 public class BootdoApplication {
     public static void main(String[] args) {
         SpringApplication springApplication=new SpringApplication(BootdoApplication.class);

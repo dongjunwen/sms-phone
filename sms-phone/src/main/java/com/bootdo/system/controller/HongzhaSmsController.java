@@ -1,12 +1,10 @@
 package com.bootdo.system.controller;
 
 import com.bootdo.common.utils.*;
-import com.bootdo.system.domain.OrderDO;
-import com.bootdo.system.domain.SmsDO;
+import com.bootdo.system.domain.*;
 import com.bootdo.system.enums.InvalidDayType;
 import com.bootdo.system.enums.InvalidStatus;
-import com.bootdo.system.service.OrderService;
-import com.bootdo.system.service.SmsService;
+import com.bootdo.system.service.*;
 import com.bootdo.system.vo.PhoneNumVo;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,13 @@ public class HongzhaSmsController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private UserAccountService userAccountService;
+    @Autowired
+    private AccountLogService accountLogService;
+    @Autowired
+    private ProductService productService;
+
     @GetMapping()
     @RequiresPermissions("hongzha:sms:sms")
     String Sms(){
@@ -51,12 +57,49 @@ public class HongzhaSmsController {
     public R valid( @RequestParam(value = "orderNo")String orderNo){
 
         OrderDO oldOrder=orderService.selectByOrderNo(orderNo);
-        if(oldOrder==null || !oldOrder.getInvalidStatus().equals(InvalidStatus.VALID.getCode())){
+        if(oldOrder==null || !oldOrder.getInvalidStatus().equals(InvalidStatus.VALID.getCode())
+            ||  oldOrder.getUseTime()!=null
+                ){
             return R.error("卡密无效");
         }
         //1.判断代理商余额是否充足
+        UserAccountDO userAccountDO=userAccountService.selectByUserId(oldOrder.getOwnerUserId());
+        if(userAccountDO==null || BigDecimal.ZERO.compareTo(userAccountDO.getAcctAmt())>=0){
+            return R.error("余额不足，请联系销售人员充值。");
+        }
+        //2.扣减余额
+       ProductDO productDO= productService.findPrice(oldOrder.getInvalidType(),oldOrder.getInvalidDays());
+        BigDecimal productPrice=BigDecimal.TEN;//默认十元
+        if(productDO!=null && productDO.getPrice()!=null){
+            productPrice=productDO.getPrice();
+        }
 
-        //2.开始激活
+        if(productPrice.compareTo(userAccountDO.getAcctAmt())==1){
+            BigDecimal subAmt=productPrice.subtract(userAccountDO.getAcctAmt());
+            return R.error("余额不足以支持本次消费,还差"+subAmt+"元,请联系销售人员充值。");
+        }
+
+        BigDecimal operAmtBefore=userAccountDO.getAcctAmt();
+        BigDecimal  operAmtAfter=operAmtBefore.subtract(productPrice);
+        userAccountDO.setAcctAmt(operAmtAfter);
+        userAccountDO.setModiTime(new Date());
+        userAccountService.update(userAccountDO);
+
+        //1.记录消费流水
+        AccountLogDO accountLogDO=new AccountLogDO();
+        accountLogDO.setUserId(oldOrder.getOwnerUserId());
+        accountLogDO.setAcctId(userAccountDO.getId());
+        accountLogDO.setOperAmt(productPrice);
+        accountLogDO.setAmtDirect("-");
+        accountLogDO.setAcctAmtB(operAmtBefore);//消费前金额
+        accountLogDO.setAcctAmtA(operAmtAfter);//消费后金额
+        accountLogDO.setOperMsg("消费金额"+productPrice);
+        accountLogDO.setOperType("EXPEND");
+        accountLogDO.setOperStatus(2);
+        accountLogDO.setCreateTime(new Date());
+        accountLogService.save(accountLogDO);
+
+        //3.开始激活
         OrderDO orderDO=new OrderDO();
         orderDO.setOrderNo(orderNo);
         orderDO.setId(oldOrder.getId());

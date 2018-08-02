@@ -54,13 +54,14 @@ function load() {
 						title : '序号' // 列标题
 					},
 					{
-						field : 'name',
-						title : '姓名'
-					},
-					{
 						field : 'username',
-						title : '用户名'
+						title : '账号'
 					},
+
+                    {
+                        field : 'name',
+                        title : '昵称'
+                    },
 					{
 						field : 'qq',
 						title : 'QQ号'
