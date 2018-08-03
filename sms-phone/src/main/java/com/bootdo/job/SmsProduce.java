@@ -1,8 +1,9 @@
 package com.bootdo.job;
 
 import com.bootdo.system.domain.SmsBean;
-import com.bootdo.system.domain.SmsDO;
 import com.lmax.disruptor.RingBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -12,6 +13,8 @@ import com.lmax.disruptor.RingBuffer;
  * @Modify :
  **/
 public class SmsProduce {
+
+    private static final Logger logger= LoggerFactory.getLogger(SmsProduce.class);
 
     //队列
     private final RingBuffer<SmsBean> dataRingBuffer;
@@ -37,6 +40,7 @@ public class SmsProduce {
             data.setConfigDOList(smsBean.getConfigDOList());
         } finally {
             //插入
+            logger.info("生产者制造数据...");
             dataRingBuffer.publish(next);
         }
     }

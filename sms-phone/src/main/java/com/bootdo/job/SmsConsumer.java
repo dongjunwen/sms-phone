@@ -2,16 +2,10 @@ package com.bootdo.job;
 
 import com.bootdo.system.domain.ConfigDO;
 import com.bootdo.system.domain.SmsBean;
-import com.bootdo.system.domain.SmsDO;
-import com.bootdo.system.service.ConfigService;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.WorkHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -32,9 +26,23 @@ public class SmsConsumer implements WorkHandler<SmsBean>,EventHandler<SmsBean> {
     @Override
     public void onEvent(SmsBean smsBean) throws Exception {
         logger.info("[消费者]线程名称:{},卡密:{},手机号:{}开始处理...",Thread.currentThread().getName(),smsBean.getOrderNo(),smsBean.getPhoneNum());
-        run(smsBean);
+        try{
+            doSend(smsBean);
+        }catch (Exception e){
+            logger.error("处理短信失败:{}",e);
+        }
+
     }
-    public void run(SmsBean smsBean){
+   /* public void run1(){
+        try {
+            Thread.sleep(1000);
+            logger.info("模拟线程等待一秒...");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    public void doSend(SmsBean smsBean){
         List<ConfigDO> configDOList=smsBean.getConfigDOList();
         if(configDOList==null) return;
         for (ConfigDO configDO:smsBean.getConfigDOList()){

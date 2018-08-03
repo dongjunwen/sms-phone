@@ -28,7 +28,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/system/sysDept")
 public class DeptController extends BaseController {
-	private String prefix = "/system/dept";
+	private String prefix = "system/dept";
 	@Autowired
 	private DeptService sysDeptService;
 

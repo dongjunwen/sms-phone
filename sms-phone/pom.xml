@@ -252,6 +252,13 @@
             <version>1.9.2</version>
         </dependency>
 
+        <!--解决springboot使用thymeleaf时报html没有结束标签-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+
         <!--war包部署需要-->
         <!--<dependency>-->
         <!--<groupId>org.springframework.boot</groupId>-->

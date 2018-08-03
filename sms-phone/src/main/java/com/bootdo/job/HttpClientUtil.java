@@ -163,6 +163,7 @@ public class HttpClientUtil {
               return doPosMap(newUri,params);
             }
             HttpEntity entity = response.getEntity();
+            if(entity!=null)
             httpStr = EntityUtils.toString(entity, "UTF-8");
             logger.info("[http工具类]响应内容:{}",httpStr);
         } catch (IOException e) {
@@ -231,6 +232,7 @@ public class HttpClientUtil {
             httpPost.setConfig(requestConfig);
             StringEntity stringEntity=new StringEntity(reqParams,"utf-8");
             stringEntity.setContentType("application/x-www-form-urlencoded");
+          //  httpPost.addHeader(new BasicHeader("Cookie","Hm_lvt_603d391c2fead5a813a8f6b812c3658b=1532928314; PHPSESSID=abf680iumr0vddb35dnc98htb3; cjq_forward_url=http%3A%2F%2Fb2b59.com%2F; Hm_lpvt_603d391c2fead5a813a8f6b812c3658b=1532935174"));
             httpPost.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
             httpPost.setHeader("Accept","application/json, text/plain, */*");
 
@@ -243,6 +245,7 @@ public class HttpClientUtil {
                 return doPostStr(newUri,reqParams);
             }
             HttpEntity entity = response.getEntity();
+            if(entity!=null)
             httpStr = EntityUtils.toString(entity, "UTF-8");
             logger.info("[http工具类]响应内容:{}",httpStr);
         } catch (IOException e) {
@@ -283,6 +286,7 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             logger.info("[http工具类]响应状态码:{}",response.getStatusLine().getStatusCode());
+            if(entity!=null)
             httpStr = EntityUtils.toString(entity, "UTF-8");
         } catch (IOException e) {
             logger.error("[http工具类]请求发生IO异常:",e);
@@ -316,6 +320,7 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             logger.info("[http工具类]响应状态码:{}",response.getStatusLine().getStatusCode());
+            if(entity!=null)
             httpStr = EntityUtils.toString(entity, "UTF-8");
         } catch (IOException e) {
             logger.error("[http工具类]请求发生IO异常:",e);
