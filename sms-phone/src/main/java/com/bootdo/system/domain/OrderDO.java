@@ -37,8 +37,12 @@ public class OrderDO implements Serializable {
 	private Long useUserId;
 	private String useUserName;
 	private String useUserQq;
+	private String useUserWeiXin;
 	//拥有人
 	private Long ownerUserId;
+	private String ownerUserName;
+	private String ownerUserQq;
+	private String ownerUserWeiXin;
 
 
 	/**
@@ -176,5 +180,37 @@ public class OrderDO implements Serializable {
 
 	public void setUseUserQq(String useUserQq) {
 		this.useUserQq = useUserQq;
+	}
+
+	public String getOwnerUserName() {
+		return ownerUserName;
+	}
+
+	public void setOwnerUserName(String ownerUserName) {
+		this.ownerUserName = ownerUserName;
+	}
+
+	public String getOwnerUserQq() {
+		return ownerUserQq;
+	}
+
+	public void setOwnerUserQq(String ownerUserQq) {
+		this.ownerUserQq = ownerUserQq;
+	}
+
+	public String getOwnerUserWeiXin() {
+		return ownerUserWeiXin;
+	}
+
+	public void setOwnerUserWeiXin(String ownerUserWeiXin) {
+		this.ownerUserWeiXin = ownerUserWeiXin;
+	}
+
+	public String getUseUserWeiXin() {
+		return useUserWeiXin;
+	}
+
+	public void setUseUserWeiXin(String useUserWeiXin) {
+		this.useUserWeiXin = useUserWeiXin;
 	}
 }

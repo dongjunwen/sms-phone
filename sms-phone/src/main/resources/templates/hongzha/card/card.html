@@ -9,7 +9,7 @@
 				<div class="ibox-body">
 					<div class="fixed-table-toolbar">
 						<form id="carForm">
-							<div class="columns pull-left col-md-1 nopadding">
+							<!--<div class="columns pull-left col-md-1 nopadding">
 								<label>有效时长类型</label>
 								<select id="invalidDayType" name="invalidDayType">
 									<option value="MIN" >分钟</option>
@@ -19,15 +19,25 @@
 							</div>
 						<div class="columns pull-left col-md-2 nopadding">
 							<label>有效时长(天、分钟或小时):</label><input id="invalidDays" name="invalidDays" type="text" class="form-control" placeholder="请输入天数">
-						</div>
+						</div>-->
+							<div class="columns pull-left col-md-1 nopadding">
+								<select id="productNo" name="productNo" class="form-control" >
+									<option th:each="productDo:${productDOS}"
+											th:value="${productDo.productNo}"
+											th:text="${productDo.productName}"></option>
+								</select>
+							</div>
 						<div class="columns pull-left col-md-2 nopadding">
-							<label>数量:</label><input id="cardNum" name="cardNum" type="text" class="form-control" placeholder="请输入卡密数量">
+							<input id="cardNum" name="cardNum" type="text" class="form-control" placeholder="请输入卡密数量">
 						</div>
 						</form>
 						<div class="columns pull-left">
 							<button shiro:hasPermission="hongzha:card:add" type="button" class="btn  btn-primary" onclick="genOrder()">
-								<!--<i class="fa fa-plus" aria-hidden="true"></i>-->生成卡密
+								生成卡密
 							</button>
+
+						</div>
+						<div class="columns pull-right">
 							<input type="text" placeholder="请输入卡密" name="orderNo" id="orderNo">
 							<button class="btn btn-success" onclick="reLoad()">查询</button>.
 							<button class="btn btn-error" onclick="disableOrder()">禁用</button>

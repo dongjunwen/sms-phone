@@ -9,7 +9,7 @@
                 <div class="ibox-body">
                     <div class="fixed-table-toolbar">
 						<form id="cardForm">
-							<div class="columns pull-left col-md-2 nopadding">
+							<div class="columns pull-left col-md-3 nopadding">
 								<input type="text" placeholder="请输入卡密" name="orderNo">
 								<button shiro:hasPermission="hongzha:sms:valid" type="button"
 										class="btn  btn-primary" onclick="valid()">
@@ -19,23 +19,6 @@
 
 						</form>
 
-                       <!-- <form id="phoneForm">
-                            <div class="columns pull-left col-md-2 nopadding">
-                                <input type="text" placeholder="请输入手机号" name="phoneNum">
-                            </div>
-                        </form>
-                        <div class="columns pull-left">
-                            <button shiro:hasPermission="hongzha:sms:add" type="button"
-                                    class="btn  btn-primary" onclick="addPhone()">
-                                <i class="fa fa-plus" aria-hidden="true"></i>添加手机号
-                            </button>
-                        </div>
-						<div class="columns pull-left">
-							<button shiro:hasPermission="hongzha:sms:stop" type="button"
-									class="btn  btn-primary" onclick="stop()">
-								停止
-							</button>
-						</div>-->
 
 						<div class="columns pull-right">
 							<button shiro:hasPermission="hongzha:sms:stop" type="button"

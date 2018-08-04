@@ -35,4 +35,6 @@ public interface OrderDao {
     void batchDisable(Integer[] ids);
 
 	void batchEnable(Integer[] ids);
+
+    List<OrderDO> selectByUserId(Long userId);
 }

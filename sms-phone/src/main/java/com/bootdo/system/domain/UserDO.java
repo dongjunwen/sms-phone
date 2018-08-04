@@ -24,6 +24,7 @@ public class UserDO implements Serializable {
     // 邮箱
     private String email;
     private String QQ;
+    private String weiXin;
     // 手机号
     private String mobile;
     // 状态 0:禁用，1:正常
@@ -39,6 +40,8 @@ public class UserDO implements Serializable {
     private List<Long> roleIds;
     //角色名称
     private String roleName;
+    //角色编码
+    private String roleCode;
     //可用余额
     private BigDecimal acctAmt;
     //性别
@@ -267,6 +270,22 @@ public class UserDO implements Serializable {
         this.QQ = QQ;
     }
 
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
+
+    public String getWeiXin() {
+        return weiXin;
+    }
+
+    public void setWeiXin(String weiXin) {
+        this.weiXin = weiXin;
+    }
+
     @Override
     public String toString() {
         return "UserDO{" +
@@ -279,12 +298,17 @@ public class UserDO implements Serializable {
                 ", deptName='" + deptName + '\'' +
                 ", email='" + email + '\'' +
                 ", QQ='" + QQ + '\'' +
+                ", weiXin='" + weiXin + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", status=" + status +
                 ", userIdCreate=" + userIdCreate +
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
+                ", role=" + role +
                 ", roleIds=" + roleIds +
+                ", roleName='" + roleName + '\'' +
+                ", roleCode='" + roleCode + '\'' +
+                ", acctAmt=" + acctAmt +
                 ", sex=" + sex +
                 ", birth=" + birth +
                 ", picId=" + picId +

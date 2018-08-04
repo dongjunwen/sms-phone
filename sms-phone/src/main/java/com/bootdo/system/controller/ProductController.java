@@ -26,7 +26,7 @@ import com.bootdo.common.utils.R;
  * 
  * @author chglee
  * @email 1992lcg@163.com
- * @date 2018-08-02 09:55:43
+ * @date 2018-08-04 17:11:06
  */
  
 @Controller
@@ -43,7 +43,7 @@ public class ProductController {
 	
 	@ResponseBody
 	@GetMapping("/list")
-	@RequiresPermissions("system:product:product")
+	//@RequiresPermissions("system:product:product")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);

@@ -12,12 +12,28 @@
 		from bom_order
 		where order_no = #{orderNo}
 	</select>
+	<select id="selectByUserId" resultType="com.bootdo.system.domain.OrderDO" parameterType="java.lang.Long">
+		select  a.id,`order_no`,`order_name`,`invalid_status`,`invalid_days`,`create_time`,`use_time`,`unvalid_time`,
+        use_user_id,b.name as use_user_name,b.QQ as use_user_qq,b.wei_xin as use_user_weixin,
+		owner_user_id,c.name as owner_user_name,c.QQ as owner_user_qq,c.wei_xin as owner_user_weixin,
+		invalid_type
+		from bom_order a
+		left join sys_user b on a.use_user_id=b.user_id
+		left join sys_user c on a.owner_user_id=c.user_id
+		where use_user_id = #{userId}
+		and invalid_status='0'
+		and unvalid_time &gt;= now();
+	</select>
 
 
 	<select id="list" resultType="com.bootdo.system.domain.OrderDO">
 		select a.id,`order_no`,`order_name`,`invalid_status`,`invalid_days`,`create_time`,`use_time`,`unvalid_time`,
-        use_user_id,b.name as use_user_name,b.QQ as use_user_qq,invalid_type
-		from bom_order a left join sys_user b on a.use_user_id=b.user_id
+        use_user_id,b.name as use_user_name,b.QQ as use_user_qq,b.wei_xin as use_user_weixin,
+		owner_user_id,c.name as owner_user_name,c.QQ as owner_user_qq,c.wei_xin as owner_user_weixin,
+		invalid_type
+		from bom_order a
+		left join sys_user b on a.use_user_id=b.user_id
+		left join sys_user c on a.owner_user_id=c.user_id
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="orderNo != null and orderNo != ''"> and order_no = #{orderNo} </if>

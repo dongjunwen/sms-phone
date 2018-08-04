@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * 产品定价表
  * @author chglee
  * @email 1992lcg@163.com
- * @date 2018-08-02 09:55:43
+ * @date 2018-08-04 17:11:06
  */
 @Mapper
 public interface ProductDao {
@@ -32,4 +32,6 @@ public interface ProductDao {
 	int batchRemove(Long[] ids);
 
 	ProductDO findPrice(@Param("validDay") int validDay);
+
+    ProductDO findByProductNo(String productNo);
 }

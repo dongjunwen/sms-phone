@@ -11,13 +11,17 @@ import java.util.Date;
  * 
  * @author chglee
  * @email 1992lcg@163.com
- * @date 2018-08-02 09:55:43
+ * @date 2018-08-04 17:11:06
  */
 public class ProductDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	//主键ID
 	private Long id;
+	//产品编号
+	private String productNo;
+	//产品名称
+	private String productName;
 	//最小天数
 	private Long minTime;
 	//最大天数
@@ -46,6 +50,30 @@ public class ProductDO implements Serializable {
 	 */
 	public Long getId() {
 		return id;
+	}
+	/**
+	 * 设置：产品编号
+	 */
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
+	}
+	/**
+	 * 获取：产品编号
+	 */
+	public String getProductNo() {
+		return productNo;
+	}
+	/**
+	 * 设置：产品名称
+	 */
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	/**
+	 * 获取：产品名称
+	 */
+	public String getProductName() {
+		return productName;
 	}
 	/**
 	 * 设置：最小天数

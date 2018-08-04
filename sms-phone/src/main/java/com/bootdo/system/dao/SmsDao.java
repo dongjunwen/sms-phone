@@ -32,6 +32,10 @@ public interface SmsDao {
 
     int countByIndex(SmsDO smsDO);
 
+
+
+	int countByOrderNo(SmsDO smsDO);
+
     List<SmsDO> listAvailable();
 
     List<SmsDO> selectByOrderNo(String orderNo);

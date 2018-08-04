@@ -67,6 +67,10 @@ function load() {
 						title : 'QQ号'
 					},
                     {
+                        field : 'weiXin',
+                        title : '微信号'
+                    },
+                    {
                         field : 'roleName',
                         title : '角色'
                     },

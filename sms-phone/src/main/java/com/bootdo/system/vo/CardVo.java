@@ -11,6 +11,7 @@ import com.bootdo.system.enums.InvalidDayType;
 public class CardVo {
     private InvalidDayType invalidDayType;
     private int invalidDays;
+    private String productNo;
     private int cardNum;
 
     public InvalidDayType getInvalidDayType() {
@@ -35,5 +36,13 @@ public class CardVo {
 
     public void setCardNum(int cardNum) {
         this.cardNum = cardNum;
+    }
+
+    public String getProductNo() {
+        return productNo;
+    }
+
+    public void setProductNo(String productNo) {
+        this.productNo = productNo;
     }
 }

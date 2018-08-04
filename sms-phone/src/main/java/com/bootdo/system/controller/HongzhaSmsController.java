@@ -2,6 +2,7 @@ package com.bootdo.system.controller;
 
 import com.bootdo.common.utils.*;
 import com.bootdo.system.domain.*;
+import com.bootdo.system.enums.ExecStatus;
 import com.bootdo.system.enums.InvalidDayType;
 import com.bootdo.system.enums.InvalidStatus;
 import com.bootdo.system.service.*;
@@ -147,6 +148,10 @@ public class HongzhaSmsController {
         smsDO.setOrderNo(phoneNumVo.getOrderNo());
         smsDO.setUserId(ShiroUtils.getUserId());
         try{
+            int countNum=smsService.countByOrderNo(smsDO);
+            if(countNum>=6){
+                return R.error("最多只能添加六个手机号");
+            }
             if(StringUtils.isNotEmpty(phoneNumVo.getPhoneNum1())){
                 smsDO.setPhoneNum(phoneNumVo.getPhoneNum1());
                 smsService.addPhone(smsDO);
@@ -229,6 +234,25 @@ public class HongzhaSmsController {
         return "hongzha/sms/edit";
     }
 
+
+    /**
+     * 修改状态
+     */
+    @ResponseBody
+    @RequestMapping("/modiStatus/{smsId}")
+    @RequiresPermissions("hongzha:sms:modiStatus")
+    public R modiStatus(@PathVariable("smsId") long smsId){
+        SmsDO sms=new SmsDO();
+        sms.setId(smsId);
+        SmsDO smsDO=smsService.get(smsId);
+        if(ExecStatus.PROCESS.getCode()==smsDO.getExecStatus()){
+            sms.setExecStatus(ExecStatus.STOP.getCode());
+        }else{
+            sms.setExecStatus(ExecStatus.PROCESS.getCode());
+        }
+        smsService.update(sms);
+        return R.ok();
+    }
 
     /**
      * 修改

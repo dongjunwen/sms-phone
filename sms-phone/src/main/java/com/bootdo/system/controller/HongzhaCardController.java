@@ -2,10 +2,12 @@ package com.bootdo.system.controller;
 
 import com.bootdo.common.utils.*;
 import com.bootdo.system.domain.OrderDO;
+import com.bootdo.system.domain.ProductDO;
 import com.bootdo.system.enums.InvalidDayType;
 import com.bootdo.system.enums.InvalidStatus;
 import com.bootdo.system.enums.RoleCodeEnum;
 import com.bootdo.system.service.OrderService;
+import com.bootdo.system.service.ProductService;
 import com.bootdo.system.service.UserService;
 import com.bootdo.system.vo.CardVo;
 import com.bootdo.system.vo.OrderResultVo;
@@ -32,10 +34,14 @@ public class HongzhaCardController {
     private OrderService orderService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping()
     @RequiresPermissions("hongzha:card:card")
-    String Card(){
+    String Card(Model model){
+        List<ProductDO> productDOS=productService.list(null);
+        model.addAttribute("productDOS",productDOS);
         return "hongzha/card/card";
     }
 
@@ -98,13 +104,15 @@ public class HongzhaCardController {
     @PostMapping("/genOrder")
     @RequiresPermissions("hongzha:card:genOrder")
     public R save(CardVo cardVo){
-        InvalidDayType invalidDayType=cardVo.getInvalidDayType();
+        String productNo=cardVo.getProductNo();
+        String invalidDayType=productNo.split("_")[0];
+        int invalidDays=Integer.valueOf(productNo.split("_")[1]);
         int cardNum=cardVo.getCardNum();
-        int invalidDays=cardVo.getInvalidDays();
+        ProductDO productDO=productService.findByNo(productNo);
         for(int i=0;i<=cardNum-1;i++){
             OrderDO orderDO=new OrderDO();
-            orderDO.setOrderName(invalidDays+invalidDayType.getName()+"卡");
-            orderDO.setInvalidType(invalidDayType.getCode());
+            orderDO.setOrderName(productDO.getProductName());
+            orderDO.setInvalidType(invalidDayType);
             orderDO.setCreateTime(new Date());
             orderDO.setInvalidDays(invalidDays);
             orderDO.setInvalidStatus(InvalidStatus.VALID.getCode());

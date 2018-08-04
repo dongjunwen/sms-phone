@@ -1,6 +1,7 @@
 package com.bootdo.system.service;
 
 import com.bootdo.system.domain.SmsDO;
+import com.bootdo.system.vo.CustResultVo;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,11 @@ public interface SmsService {
 
     void addPhone(SmsDO smsDO);
 
+	int countByOrderNo (SmsDO smsDO);
+
 	List<SmsDO> listAvailable();
 
     List<SmsDO> selectByOrderNo(String orderNo);
+
+    CustResultVo findByUser(Long userId);
 }

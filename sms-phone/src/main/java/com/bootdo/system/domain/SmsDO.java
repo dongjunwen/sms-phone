@@ -22,8 +22,10 @@ public class SmsDO implements Serializable {
 	private String phoneNum;
 	//0:停止 1:运行中
 	private Integer execStatus;
+	private String execStatusName;
 	//运行类型
 	private String execType;
+	private Integer successNum;
 	private Long userId;
 	private Date createTime;
 	private Date modiTime;
@@ -108,5 +110,21 @@ public class SmsDO implements Serializable {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public Integer getSuccessNum() {
+		return successNum;
+	}
+
+	public void setSuccessNum(Integer successNum) {
+		this.successNum = successNum;
+	}
+
+	public String getExecStatusName() {
+		return execStatusName;
+	}
+
+	public void setExecStatusName(String execStatusName) {
+		this.execStatusName = execStatusName;
 	}
 }

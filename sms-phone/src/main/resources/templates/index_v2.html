@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/mvc">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>3911匪匪轰系统</title>
+    <meta name="keywords" content="3911匪匪轰系统">
+    <meta name="description" content="3911匪匪轰系统">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+
+</head>
+
+<body >
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>
+               公告信息栏.............
+            </h3>
+            <form class="form-horizontal">
+                <table class="table">
+                    <tr>
+                        <td> <label class="control-label" for="sellerQq">客服QQ:</label> <input id="sellerQq" type="text" th:value="${custResultVo.sellerQq}"></td>
+                        <td>  <label class="control-label" for="sellerWeiXin">客服微信:</label><input id="sellerWeiXin" type="text"  th:value="${custResultVo.sellerWeiXin}"></td>
+                    </tr>
+                    <tr>
+                        <td> <label class="control-label" for="orderNo">我的卡密:</label> <input id="orderNo" type="text" th:value="${custResultVo.orderNo}" />
+                                <button class="btn" type="button"  th:style="'display:' + @{(${custResultVo.ifShow} ? 'none' : 'inline-block')} + ''" onclick="valid()"> 激活卡密</button>
+
+                        </td>
+                        <td> <label class="control-label" for="remainDay">剩余天数:</label><input id="remainDay" type="text" th:value="${custResultVo.remainDay}"/></td>
+                    </tr>
+                    <tr>
+                        <td> <label class="control-label" for="useTime">激活日期:</label> <input id="useTime" type="text"   th:value="${custResultVo.useTime}"/></td>
+                        <td> <label class="control-label" for="unvalidTime">到期日期:</label><input id="unvalidTime" type="text"  th:value="${custResultVo.unvalidTime}" /></td>
+                    </tr>
+                </table>
+            </form>
+            <form class="form-search" id="phoneForm" >
+                <input id="orderNo1" name="orderNo" type="hidden" th:value="${custResultVo.orderNo}" />
+                <input class="input-medium search-query" type="text" id="phoneNum"  name="phoneNum1"/>
+                <button type="button" class="btn" onclick="addPhone()">添加手机号</button>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        手机号
+                    </th>
+                   <!-- <th>
+                        成功次数
+                    </th>-->
+                    <th>
+                        状态
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="smsDO : ${custResultVo.smsDOS}"><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
+                    <td th:text="${smsDO.phoneNum}"/>
+                 <!--   <td th:text="${smsDO.successNum}"/>-->
+                    <td th:text="${smsDO.execStatusName}"/>
+                    <td >
+                        <button type="button" th:style="'display:' + @{(${smsDO.execStatus eq 1} ? 'none' : 'inline-block')} + ''" class="btn" th:onclick="'javascript:modiStatus('+${smsDO.id}+')' " >启动</button>
+                        <button type="button" th:style="'display:' + @{(${smsDO.execStatus eq 0} ? 'none' : 'inline-block')} + ''" class="btn" th:onclick="'javascript:modiStatus('+${smsDO.id}+')' ">停止</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript"> var ctx = [[@{/}]] ; </script>
+<!-- 全局js -->
+<script src="/js/jquery.min.js?v=2.1.4" th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+<script src="/js/bootstrap.min.js?v=3.3.6" th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+
+<!-- 自定义js -->
+<script src="/js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/ajax-util.js"></script>
+<script src="/js/plugins/validate/jquery.validate.min.js" th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+<script src="/js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+<script src="/js/plugins/layer/layer.min.js" th:src="@{/js/plugins/layer/layer.min.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#login").on('click',function(){$("#signupForm").submit();});
+        validateRule();
+    });
+
+    $.validator.setDefaults({
+        submitHandler: function () {
+            login();
+        }
+    });
+
+    function valid() {
+        $.ajax({
+            type : 'POST',
+            data : {
+             orderNo:$("#orderNo").val()
+            },
+            url :  '/hongzha/sms/valid',
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    window.location.reload();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+    function addPhone() {
+        $.ajax({
+            type : 'POST',
+            data : $('#phoneForm').serialize(),
+            url :  ' /hongzha/sms/addPhone',
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    window.location.reload();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+
+    function modiStatus(id) {
+        $.ajax({
+            type : 'POST',
+            url :  ' /hongzha/sms/modiStatus/' + id,
+            success : function(r) {
+                if (r.code == 0) {
+                    layer.msg(r.msg);
+                    window.location.reload();
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

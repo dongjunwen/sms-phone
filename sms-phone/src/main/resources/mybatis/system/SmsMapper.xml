@@ -5,7 +5,7 @@
 
 	<select id="get" resultType="com.bootdo.system.domain.SmsDO">
 		select
-		`id`,order_no,`phone_num`,`exec_status`,`exec_type`,user_id,create_time,modi_time
+		`id`,order_no,`phone_num`,success_num,`exec_status`,`exec_type`,user_id,create_time,modi_time
 		 from bom_sms
 		 where id = #{value}
 	</select>
@@ -19,12 +19,22 @@
           and phone_num = #{phoneNum}
     </select>
 
+	<select id="countByOrderNo" parameterType="com.bootdo.system.domain.SmsDO" resultType="java.lang.Integer">
+		select count(id)
+		from bom_sms
+		where
+		1=1
+		and order_no = #{orderNo}
+	</select>
+
 
 	<select id="selectByOrderNo" resultType="com.bootdo.system.domain.SmsDO" parameterType="java.lang.String">
 		select
-		`id`,order_no,`phone_num`,`exec_status`,`exec_type`,user_id,create_time,modi_time
-		from bom_sms
+		a.id,a.order_no,a.phone_num,a.exec_status,b.name exec_status_name,a.success_num,a.exec_type,a.user_id,a.create_time,a.modi_time
+		from bom_sms a
+		join sys_dict b on a.exec_status =b.value and b.type='EXEC_STATUS'
 		where order_no = #{orderNo}
+
 	</select>
 	<select id="list" resultType="com.bootdo.system.domain.SmsDO">
 		select `id`,`phone_num`,`exec_status`,`exec_type` from bom_sms
@@ -106,6 +116,7 @@
 		from bom_sms a join bom_order b on a.order_no=b.order_no
 		and b.unvalid_time &gt; now()
 		and b.invalid_status='0'
+		and a.exec_status='1'
 	</select>
 
 

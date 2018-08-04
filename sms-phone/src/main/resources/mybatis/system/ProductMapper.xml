@@ -4,13 +4,15 @@
 <mapper namespace="com.bootdo.system.dao.ProductDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.ProductDO">
-		select `id`,`min_time`,`max_time`,`price`,`begin_date`,`end_date`,`status`,`create_time`,`modi_time` from bom_product where id = #{value}
+		select `id`,`product_no`,`product_name`,`min_time`,`max_time`,`price`,`begin_date`,`end_date`,`status`,`create_time`,`modi_time` from bom_product where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.ProductDO">
-		select `id`,`min_time`,`max_time`,`price`,`begin_date`,`end_date`,`status`,`create_time`,`modi_time` from bom_product
+		select `id`,`product_no`,`product_name`,`min_time`,`max_time`,`price`,`begin_date`,`end_date`,`status`,`create_time`,`modi_time` from bom_product
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="productNo != null and productNo != ''"> and product_no = #{productNo} </if>
+		  		  <if test="productName != null and productName != ''"> and product_name = #{productName} </if>
 		  		  <if test="minTime != null and minTime != ''"> and min_time = #{minTime} </if>
 		  		  <if test="maxTime != null and maxTime != ''"> and max_time = #{maxTime} </if>
 		  		  <if test="price != null and price != ''"> and price = #{price} </if>
@@ -37,6 +39,8 @@
 		select count(*) from bom_product
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="productNo != null and productNo != ''"> and product_no = #{productNo} </if>
+		  		  <if test="productName != null and productName != ''"> and product_name = #{productName} </if>
 		  		  <if test="minTime != null and minTime != ''"> and min_time = #{minTime} </if>
 		  		  <if test="maxTime != null and maxTime != ''"> and max_time = #{maxTime} </if>
 		  		  <if test="price != null and price != ''"> and price = #{price} </if>
@@ -51,6 +55,8 @@
 	<insert id="save" parameterType="com.bootdo.system.domain.ProductDO" useGeneratedKeys="true" keyProperty="id">
 		insert into bom_product
 		(
+			`product_no`, 
+			`product_name`, 
 			`min_time`, 
 			`max_time`, 
 			`price`, 
@@ -62,6 +68,8 @@
 		)
 		values
 		(
+			#{productNo}, 
+			#{productName}, 
 			#{minTime}, 
 			#{maxTime}, 
 			#{price}, 
@@ -76,6 +84,8 @@
 	<update id="update" parameterType="com.bootdo.system.domain.ProductDO">
 		update bom_product 
 		<set>
+			<if test="productNo != null">`product_no` = #{productNo}, </if>
+			<if test="productName != null">`product_name` = #{productName}, </if>
 			<if test="minTime != null">`min_time` = #{minTime}, </if>
 			<if test="maxTime != null">`max_time` = #{maxTime}, </if>
 			<if test="price != null">`price` = #{price}, </if>
@@ -98,16 +108,22 @@
 			#{id}
 		</foreach>
 	</delete>
+
 	<select id="findPrice"  resultType="com.bootdo.system.domain.ProductDO">
 		SELECT  *
 		from bom_product
-		 where 1=1
+		where 1=1
 		AND  #{validDay} &gt;=  min_time
 		AND ( #{validDay} &lt; max_time  OR max_time IS NULL  )
 		AND  NOW()> begin_date
 		AND  (end_date IS NULL  OR NOW() &lt;= end_date)
 		and status=1
 	</select>
-
+	<select id="findByProductNo"  resultType="com.bootdo.system.domain.ProductDO">
+		SELECT  *
+		from bom_product
+		where 1=1
+		AND  product_no = #{productNo}
+	</select>
 
 </mapper>

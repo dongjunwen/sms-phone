@@ -1,6 +1,7 @@
 package com.bootdo.system.service;
 
 import com.bootdo.system.domain.ProductDO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  * 
  * @author chglee
  * @email 1992lcg@163.com
- * @date 2018-08-02 09:55:43
+ * @date 2018-08-04 17:11:06
  */
 public interface ProductService {
 	
@@ -29,4 +30,6 @@ public interface ProductService {
 	int batchRemove(Long[] ids);
 
 	ProductDO findPrice(String invalidType, Integer invalidDays);
+
+	ProductDO findByNo(String productNo);
 }

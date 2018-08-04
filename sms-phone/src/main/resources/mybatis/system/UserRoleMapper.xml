@@ -86,7 +86,7 @@
 	</select>
 
 	<select id="listRolesByUser" resultType="com.bootdo.system.domain.RoleDO">
-		select b.role_id,b.role_sign,b.role_name
+		select b.role_id,b.role_sign,b.role_name,b.role_code
 		from
 		sys_user_role a join sys_role b on a.role_id=b.role_id
 		where

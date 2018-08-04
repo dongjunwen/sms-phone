@@ -1,13 +1,11 @@
 package com.bootdo.system.service.impl;
 
 import com.bootdo.system.enums.InvalidDayType;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +73,11 @@ public class ProductServiceImpl implements ProductService {
 		logger.info("[时间区间]validDay={}",validDay);
 		return productDao.findPrice(validDay);
 
+	}
+
+	@Override
+	public ProductDO findByNo(String productNo) {
+		return productDao.findByProductNo(productNo);
 	}
 
 }
