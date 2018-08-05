@@ -90,7 +90,7 @@
 			`username`, 
 			`name`,
 			 QQ,
-			  weiXin,
+			  wei_xin,
 			`password`, 
 			`dept_id`, 
 			`email`, 
