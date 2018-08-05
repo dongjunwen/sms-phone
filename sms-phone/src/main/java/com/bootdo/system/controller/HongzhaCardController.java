@@ -40,6 +40,8 @@ public class HongzhaCardController {
     @GetMapping()
     @RequiresPermissions("hongzha:card:card")
     String Card(Model model){
+        Map<String, Object> params=new HashMap<>();
+        params.put("status","1");
         List<ProductDO> productDOS=productService.list(null);
         model.addAttribute("productDOS",productDOS);
         return "hongzha/card/card";

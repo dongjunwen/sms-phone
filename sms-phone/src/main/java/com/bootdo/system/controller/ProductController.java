@@ -40,6 +40,19 @@ public class ProductController {
 	String Product(){
 	    return "system/product/product";
 	}
+
+	@ResponseBody
+	@GetMapping("/listAvailable")
+	//@RequiresPermissions("system:product:product")
+	public PageUtils listAvailable(@RequestParam Map<String, Object> params){
+		//查询列表数据
+		params.put("status","1");
+		Query query = new Query(params);
+		List<ProductDO> productList = productService.list(query);
+		int total = productService.count(query);
+		PageUtils pageUtils = new PageUtils(productList, total);
+		return pageUtils;
+	}
 	
 	@ResponseBody
 	@GetMapping("/list")
