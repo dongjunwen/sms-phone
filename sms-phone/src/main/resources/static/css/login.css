@@ -13,6 +13,16 @@ body.signin {
     background-size: cover;
     color: rgba(255,255,255,.95);
 }
+body.custShow {
+    background: #18c8f6;
+    height: auto;
+    background:url("../img/login-background.jpg") no-repeat center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: rgba(255,255,255,.95);
+}
 .logopanel h1{
 	font-size: 40px;
 }

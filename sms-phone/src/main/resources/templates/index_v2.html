@@ -24,66 +24,81 @@
 
 </head>
 
-<body >
+<body  class="custShow">
 <div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <h3>
-               公告信息栏.............
-            </h3>
-            <form class="form-horizontal">
+    <div class="signinpanel">
+        <div class="row">
+            <h1 style="alignment: center">3911匪匪轰系统</h1>
+            <form class="form-horizontal" style=" padding:0px 30px 0px 30px;">
+                <label class="control-label" th:text="${custResultVo.custBoardMsg}"></label>
                 <table class="table">
                     <tr>
-                        <td> <label class="control-label" for="sellerQq">客服QQ:</label> <input id="sellerQq" type="text" th:value="${custResultVo.sellerQq}"></td>
-                        <td>  <label class="control-label" for="sellerWeiXin">客服微信:</label><input id="sellerWeiXin" type="text"  th:value="${custResultVo.sellerWeiXin}"></td>
-                    </tr>
-                    <tr>
-                        <td> <label class="control-label" for="orderNo">我的卡密:</label> <input id="orderNo" type="text" th:value="${custResultVo.orderNo}" />
-                                <button class="btn" type="button"  th:style="'display:' + @{(${custResultVo.ifShow} ? 'none' : 'inline-block')} + ''" onclick="valid()"> 激活卡密</button>
-
+                        <td>
+                            <label class="control-label" for="sellerQq">客服QQ:</label>
+                            <input id="sellerQq" class="form-control"  type="text" th:value="${custResultVo.sellerQq}"></td>
+                        <td>
+                            <label class="control-label" for="sellerWeiXin">客服微信:</label>
+                            <input id="sellerWeiXin" type="text"  class="form-control" th:value="${custResultVo.sellerWeiXin}">
                         </td>
-                        <td> <label class="control-label" for="remainDay">剩余天数:</label><input id="remainDay" type="text" th:value="${custResultVo.remainDay}"/></td>
                     </tr>
                     <tr>
-                        <td> <label class="control-label" for="useTime">激活日期:</label> <input id="useTime" type="text"   th:value="${custResultVo.useTime}"/></td>
-                        <td> <label class="control-label" for="unvalidTime">到期日期:</label><input id="unvalidTime" type="text"  th:value="${custResultVo.unvalidTime}" /></td>
+                        <td>
+                            <label class="control-label" for="orderNo">我的卡密:</label>
+                            <input id="orderNo" type="text"  class="form-control" th:value="${custResultVo.orderNo}" />
+                            <button class="btn" type="button"  th:style="'display:' + @{(${custResultVo.ifShow} ? 'none' : 'inline-block')} + ''" onclick="valid()"> 激活卡密</button>
+                        </td>
+                        <td>
+                            <label class="control-label" for="remainDay">剩余天数:</label>
+                            <input id="remainDay"  class="form-control" type="text" th:value="${custResultVo.remainDay}"/></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label" for="useTime">激活日期:</label>
+                            <input id="useTime" type="text"  class="form-control"  th:value="${custResultVo.useTime}"/></td>
+                        <td>
+                            <label class="control-label" for="unvalidTime">到期日期:</label>
+                            <input id="unvalidTime" type="text"  class="form-control"  th:value="${custResultVo.unvalidTime}" />
+                        </td>
                     </tr>
                 </table>
             </form>
-            <form class="form-search" id="phoneForm" >
+            <form class="form-search" id="phoneForm" style=" padding:0px 30px 0px 30px;">
                 <input id="orderNo1" name="orderNo" type="hidden" th:value="${custResultVo.orderNo}" />
-                <input class="input-medium search-query" type="text" id="phoneNum"  name="phoneNum1"/>
-                <button type="button" class="btn" onclick="addPhone()">添加手机号</button>
+                <div class="columns pull-left col-md-4 nopadding"><input class="form-control" type="text" id="phoneNum" name="phoneNum1"> </div>
+                <div class="columns pull-left col-md-2 nopadding"> <button type="button" class="btn btn-login btn-block" onclick="addPhone()">添加手机号</button></div>
+
             </form>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>
-                        手机号
-                    </th>
-                   <!-- <th>
-                        成功次数
-                    </th>-->
-                    <th>
-                        状态
-                    </th>
-                    <th>
-                        操作
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="smsDO : ${custResultVo.smsDOS}"><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
-                    <td th:text="${smsDO.phoneNum}"/>
-                 <!--   <td th:text="${smsDO.successNum}"/>-->
-                    <td th:text="${smsDO.execStatusName}"/>
-                    <td >
-                        <button type="button" th:style="'display:' + @{(${smsDO.execStatus eq 1} ? 'none' : 'inline-block')} + ''" class="btn" th:onclick="'javascript:modiStatus('+${smsDO.id}+')' " >启动</button>
-                        <button type="button" th:style="'display:' + @{(${smsDO.execStatus eq 0} ? 'none' : 'inline-block')} + ''" class="btn" th:onclick="'javascript:modiStatus('+${smsDO.id}+')' ">停止</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <form class="form-horizontal" id="datForm" style=" padding:0px 30px 0px 30px;">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            手机号
+                        </th>
+                       <!-- <th>
+                            成功次数
+                        </th>-->
+                        <th>
+                            状态
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="smsDO : ${custResultVo.smsDOS}"><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
+                        <td th:text="${smsDO.phoneNum}"/>
+                     <!--   <td th:text="${smsDO.successNum}"/>-->
+                        <td th:text="${smsDO.execStatusName}"/>
+                        <td >
+                            <button type="button" th:style="'display:' + @{(${smsDO.execStatus eq 1} ? 'none' : 'inline-block')} + ''" class="btn" th:onclick="'javascript:modiStatus('+${smsDO.id}+')' " >启动</button>
+                            <button type="button" th:style="'display:' + @{(${smsDO.execStatus eq 0} ? 'none' : 'inline-block')} + ''" class="btn" th:onclick="'javascript:modiStatus('+${smsDO.id}+')' ">停止</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 </div>

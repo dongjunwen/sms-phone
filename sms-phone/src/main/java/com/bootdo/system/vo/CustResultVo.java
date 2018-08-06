@@ -5,6 +5,9 @@ import com.bootdo.system.domain.SmsDO;
 import java.util.List;
 
 public class CustResultVo {
+
+    //公告信息
+    private String custBoardMsg;
     private String sellerQq;
     private String sellerWeiXin;
     private String orderNo;
@@ -16,6 +19,15 @@ public class CustResultVo {
     private String unvalidTime;
 
     private List<SmsDO> smsDOS;
+
+    public String getCustBoardMsg() {
+        return custBoardMsg;
+    }
+
+    public void setCustBoardMsg(String custBoardMsg) {
+        this.custBoardMsg = custBoardMsg;
+    }
+
     public String getSellerQq() {
         return sellerQq;
     }

@@ -1,5 +1,7 @@
 package com.bootdo.system.service.impl;
 
+import com.bootdo.common.domain.DictDO;
+import com.bootdo.common.service.DictService;
 import com.bootdo.common.utils.DateUtils;
 import com.bootdo.system.dao.OrderDao;
 import com.bootdo.system.dao.UserDao;
@@ -28,6 +30,8 @@ public class SmsServiceImpl implements SmsService {
 	private OrderDao orderDao;
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private DictService dictService;
 	
 	@Override
 	public SmsDO get(Long id){
@@ -94,6 +98,8 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public CustResultVo findByUser(Long userId) {
 		CustResultVo custResultVo=new CustResultVo();
+		String custBoardMsg=dictService.getName("CUST_BOARD_MSG","CUST_BOARD_MSG");
+		custResultVo.setCustBoardMsg(custBoardMsg);
 		List<OrderDO> orderDOS=orderDao.selectByUserId(userId);
 		if(orderDOS!=null && orderDOS.size()>=1){
 			OrderDO orderDO=orderDOS.get(0);
