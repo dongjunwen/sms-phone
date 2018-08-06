@@ -52,14 +52,6 @@ function load() {
 									title : '主键ID' 
 								},
 																{
-									field : 'productNo', 
-									title : '产品编号' 
-								},
-																{
-									field : 'productName', 
-									title : '产品名称' 
-								},
-																{
 									field : 'minTime', 
 									title : '最小天数' 
 								},
