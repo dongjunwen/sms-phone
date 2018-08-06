@@ -4,7 +4,10 @@
 <mapper namespace="com.bootdo.system.dao.UserDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.UserDO">
-		select `user_id`,`username`,`name`,puser_id,QQ,wei_xin,`password`,`dept_id`,`email`,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user where user_id = #{value}
+		select `user_id`,`username`,`name`,puser_id,QQ,wei_xin,`password`,
+		`dept_id`,`email`,`mobile`,`status`,`user_id_create`,`gmt_create`,
+		`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district`,invite_code
+		from sys_user where user_id = #{value}
 	</select>
 	<select id="getPUser" resultType="com.bootdo.system.domain.UserDO" >
 		select `user_id`,`username`,`name`,QQ,wei_xin,
@@ -19,7 +22,9 @@
 
 
 	<select id="list" resultType="com.bootdo.system.domain.UserDO">
-		select `user_id`,puser_id,`username`,`name`,`password`,`dept_id`,`email`,QQ,wei_xin,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district`
+		select `user_id`,puser_id,`username`,`name`,`password`,`dept_id`,`email`,
+		QQ,wei_xin,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,
+		`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district`,invite_code
         from sys_user
         <where>  
 		  		  <if test="userId != null and userId != ''"> and user_id = #{userId} </if>

@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public int save(UserDO user) {
-        String invitedCode=new String(RandomUtils.getRandomCode(4));
+        String invitedCode=new String(RandomUtils.getRandomNum(4));
         user.setInviteCode(invitedCode);
         int count = userMapper.save(user);
         Long userId = user.getUserId();

@@ -78,6 +78,10 @@ function load() {
                         field : 'acctAmt',
                         title : '可用余额'
                     },
+                    {
+                        field : 'inviteCode',
+                        title : '邀请码'
+                    },
 					{
 						field : 'status',
 						title : '状态',
