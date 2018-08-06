@@ -8,15 +8,15 @@ import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.*;
+import com.bootdo.system.dao.RoleDao;
 import com.bootdo.system.domain.*;
+import com.bootdo.system.enums.RoleCodeEnum;
 import com.bootdo.system.service.UserAccountService;
 import com.bootdo.system.vo.UserVO;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
     UserDao userMapper;
     @Autowired
     UserRoleDao userRoleMapper;
+    @Autowired
+    RoleDao roleDao;
     @Autowired
     DeptDao deptMapper;
     @Autowired
@@ -90,6 +92,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public int save(UserDO user) {
+        String invitedCode=new String(RandomUtils.getRandomCode(4));
+        user.setInviteCode(invitedCode);
         int count = userMapper.save(user);
         Long userId = user.getUserId();
         List<Long> roles = user.getRoleIds();
@@ -261,5 +265,33 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
+
+    @Override
+    public void register(UserDO userDO) {
+        Map paramMap=new HashMap();
+        paramMap.put("username",userDO.getUsername());
+        int countNum=count(paramMap);
+        if(countNum>=1){
+            throw new BDException("账号已被注册");
+        }
+        paramMap.clear();
+        paramMap.put("inviteCode",userDO.getInviteCode());
+        int countInviteNum=count(paramMap);
+        if(countInviteNum!=1){
+            throw new BDException("邀请码无效");
+        }
+        UserDO pUserDo=userMapper.findByInviteCode(userDO.getInviteCode());
+        userDO.setPuserId(pUserDo.getUserId());
+        String invitedCode=new String(RandomUtils.getRandomCode(4));
+        userDO.setInviteCode(invitedCode);
+        userMapper.save(userDO);
+        RoleDO roleDO =  roleDao.findByRoleCode(RoleCodeEnum.NORMAL.getCode());
+        UserRoleDO userRoleDO=new UserRoleDO();
+        userRoleDO.setRoleId(roleDO.getRoleId());
+        userRoleDO.setUserId(userDO.getUserId());
+        userRoleMapper.save(userRoleDO);
+    }
+
+
 
 }

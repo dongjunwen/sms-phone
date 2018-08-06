@@ -9,6 +9,14 @@
 		from sys_role where role_id = #{value}
 	</select>
 
+	<select id="findByRoleCode" resultType="com.bootdo.system.domain.RoleDO">
+		select
+		`role_id`,`role_name`,role_code,`role_sign`,`remark`,`user_id_create`,`gmt_create`,`gmt_modified`
+		from sys_role where role_code = #{roleCode}
+	</select>
+
+
+
 	<select id="list" resultType="com.bootdo.system.domain.RoleDO">
 		select
 		`role_id`,`role_name`,role_code,`role_sign`,`remark`,`user_id_create`,`gmt_create`,`gmt_modified`

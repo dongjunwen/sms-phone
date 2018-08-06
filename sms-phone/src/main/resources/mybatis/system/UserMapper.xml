@@ -80,13 +80,20 @@
 		  		  <if test="province != null and province != ''"> and province = #{province} </if>
 		  		  <if test="city != null and city != ''"> and city = #{city} </if>
 		  		  <if test="district != null and district != ''"> and district = #{district} </if>
+			 	  <if test="inviteCode != null and inviteCode != ''"> and invite_code = #{inviteCode} </if>
 		  		</where>
 	</select>
+
+	<select id="findByInviteCode" resultType="com.bootdo.system.domain.UserDO">
+		select * from sys_user
+		where invite_code = #{inviteCode}
+	</select>
+
 	 
 	<insert id="save" parameterType="com.bootdo.system.domain.UserDO" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user
 		(
-			puser_id,
+			 puser_id,
 			`username`, 
 			`name`,
 			 QQ,
@@ -106,7 +113,8 @@
 			`hobby`, 
 			`province`, 
 			`city`, 
-			`district`
+			`district`,
+			invite_code
 		)
 		values
 		(
@@ -130,7 +138,8 @@
 			#{hobby}, 
 			#{province}, 
 			#{city}, 
-			#{district}
+			#{district},
+			#{inviteCode}
 		)
 	</insert>
 	 
@@ -156,7 +165,8 @@
 			<if test="hobby != null">`hobby` = #{hobby}, </if>
 			<if test="province != null">`province` = #{province}, </if>
 			<if test="city != null">`city` = #{city}, </if>
-			<if test="district != null">`district` = #{district}</if>
+			<if test="district != null">`district` = #{district},</if>
+			<if test="inviteCode != null"> invite_code=#{inviteCode} </if>
 		</set>
 		where user_id = #{userId}
 	</update>

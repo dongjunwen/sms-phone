@@ -47,11 +47,24 @@
         </div>
         <div class="col-sm-5">
             <form id="signupForm">
-                <h3 class="text-center">用户登录</h3>
-                <p class="m-t-md text-center">欢迎登录3911系统</p>
-                <input type="text" name="username" class="form-control uname" value=""/>
-                <input type="password" name="password" id="loginPass" class="form-control pword m-b" value="" />
-                <a id="login" class="btn btn-login btn-block" onclick="doLogin()">登录</a>
+
+                <h3 class="text-center">用户注册</h3>
+                <p class="m-t-md text-center">欢迎注册3911匪匪轰系统</p>
+                <label class="control-label" for="loginNo">登录号</label>
+                <input type="text" name="loginNo" id="loginNo"  class="form-control" value=""/>
+                <label  class="control-label" for="loginPass1">密码</label>
+                <input type="password" name="loginPass1" id="loginPass1" class="form-control pword m-b" value="" />
+                <label class="control-label" for="loginPass2">再次输入密码</label>
+                <input type="password" name="loginPass2" id="loginPass2" class="form-control pword m-b" value="" />
+                <!--  <label class="control-label" for="nickName">昵称</label>
+                <input type="text" name="nickName" id="nickName" class="form-control" value=""/>
+              <label class="control-label" for="userEmail">邮箱(忘记密码时使用)</label>
+                <input type="text" name="userEmail" id="userEmail" class="form-control" value=""/>
+                <label class="control-label" for="userQq">QQ</label>
+                <input type="text" name="userQq" id="userQq" class="form-control" value=""/>-->
+                <label class="control-label" for="invitedCode">邀请码</label>
+                <input type="text" name="invitedCode" id="invitedCode" class="form-control" value=""/>
+                <a id="register" class="btn btn-login btn-block" onclick="doRegister()">注册</a>
                 <!--按钮模块-->
                 <div class="outside-login" >
                     <!--<div class="outside-login-tit">
@@ -59,8 +72,8 @@
                     </div>-->
                     <div class="outside-login-cot">
                         <a class="outside-login-btn wxoa actived oschina J-btnSwitchLoginType" target="_self"
-                           href="/register">
-                            <span>去注册</span>
+                           href="/login">
+                            <span>去登录</span>
                             </a>
                         <!-- <a class="outside-login-btn wxoa actived my J-btnSwitchLoginType" target="_Blank"
                             href="https://gitee.com/lcg0124/bootdo">
@@ -98,27 +111,27 @@
 <script type="text/javascript">
     $(document).ready(function () {
         validateRule();
-        $("#loginPass").keyup(function(event){
+        $("#invitedCode").keyup(function(event){
             if(event.keyCode ==13){
-                doLogin();
+                doRegister();
             }
         });
     });
 
-    function doLogin() {
+    function doRegister() {
         $("#signupForm").submit();
     }
 
     $.validator.setDefaults({
         submitHandler: function () {
-            login();
+            register();
         }
     });
 
-    function login() {
+    function register() {
         $.ajax({
             type: "POST",
-            url: ctx+"login",
+            url: ctx+"register",
             data: $('#signupForm').serialize(),
             success: function (r) {
                  if (r.code == 0) {
@@ -137,19 +150,49 @@
         var icon = "<i class='fa fa-times-circle'></i> ";
         $("#signupForm").validate({
             rules: {
-                username: {
+                loginNo: {
                     required: true
                 },
-                password: {
+                loginPass1: {
+                    required: true
+                },
+                loginPass2: {
+                    required: true
+                },
+                /* nickName: {
+                    required: true
+                },
+               userEmail: {
+                    required: true
+                },
+                userQq: {
+                    required: true
+                },*/
+                invitedCode: {
                     required: true
                 }
             },
             messages: {
-                username: {
+                loginNo: {
                     required: icon + "请输入您的用户名",
                 },
-                password: {
+                loginPass1: {
                     required: icon + "请输入您的密码",
+                },
+                loginPass2: {
+                    required: icon + "请输入您的确认密码",
+                },
+               /* nickName: {
+                    required: icon + "请输入您的昵称",
+                },
+                userEmail: {
+                    required: icon + "请输入您的邮箱",
+                },
+                userQq: {
+                    required: icon + "请输入您的QQ号",
+                },*/
+                invitedCode: {
+                    required: icon + "请输入您的邀请码",
                 }
             }
         })

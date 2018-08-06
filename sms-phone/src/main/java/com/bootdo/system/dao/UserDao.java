@@ -33,4 +33,6 @@ public interface UserDao {
 	Long[] listAllDept();
 
 	UserDO getPUser(Long userId);
+
+    UserDO findByInviteCode(String inviteCode);
 }

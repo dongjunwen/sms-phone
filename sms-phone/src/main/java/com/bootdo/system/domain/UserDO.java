@@ -61,6 +61,8 @@ public class UserDO implements Serializable {
     private String city;
     //所在地区
     private String district;
+    //邀请码
+    private String inviteCode;
 
     public String getRoleName() {
         return roleName;
@@ -286,6 +288,14 @@ public class UserDO implements Serializable {
         this.weiXin = weiXin;
     }
 
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
     @Override
     public String toString() {
         return "UserDO{" +
@@ -317,6 +327,7 @@ public class UserDO implements Serializable {
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
                 ", district='" + district + '\'' +
+                ", inviteCode='" + inviteCode + '\'' +
                 '}';
     }
 }
