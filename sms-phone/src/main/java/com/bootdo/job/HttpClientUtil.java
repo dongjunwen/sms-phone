@@ -125,6 +125,31 @@ public class HttpClientUtil {
         return result;
     }
 
+
+    /**
+     * 发送 GET 请求（HTTP），K-V形式
+     * @param url
+     * @return
+     */
+    public static HttpResponse doGetResp(String url) {
+        String apiUrl = url;
+        StringBuffer param = new StringBuffer();
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            logger.info("[http工具类]请求参数:{}",apiUrl);
+            HttpGet httpGet = new HttpGet(apiUrl);
+            httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
+            httpGet.setHeader("Accept","application/json, text/plain, */*");
+            HttpResponse response = httpclient.execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            logger.info("[http工具类]响应状态:",statusCode);
+            return response;
+        } catch (IOException e) {
+            logger.error("[http工具类]请求发生异常:",e);
+        }
+        return null;
+    }
+
     /**
      * 发送 POST 请求（HTTP），不带输入数据
      * @param apiUrl
@@ -216,6 +241,45 @@ public class HttpClientUtil {
         return response;
     }
 
+    public static String doPostStr(String apiUrl, String reqParams,String cookieStr) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        try {
+            httpPost.setConfig(requestConfig);
+            StringEntity stringEntity=new StringEntity(reqParams,"utf-8");
+            stringEntity.setContentType("application/x-www-form-urlencoded");
+              httpPost.addHeader(new BasicHeader("Cookie",cookieStr));
+            httpPost.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
+            httpPost.setHeader("Accept","application/json, text/plain, */*");
+
+            httpPost.setEntity(stringEntity);
+            logger.info("[http工具类]请求地址:{}请求参数:{}",apiUrl,reqParams);
+            response = httpClient.execute(httpPost);
+            if(302==response.getStatusLine().getStatusCode()){
+                Header header = response.getFirstHeader("location"); // 跳转的目标地址是在 HTTP-HEAD 中的
+                String newUri = header.getValue(); // 这就是跳转后的地址，再向这个地址发出新申请，以便得到跳转后的信息是啥。
+                return doPostStr(newUri,reqParams);
+            }
+            HttpEntity entity = response.getEntity();
+            if(entity!=null)
+                httpStr = EntityUtils.toString(entity, "UTF-8");
+            logger.info("[http工具类]响应内容:{}",httpStr);
+        } catch (IOException e) {
+            logger.error("[http工具类]请求发生IO异常:",e);
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    logger.error("[http工具类]请求发生IO异常1:",e);
+                }
+            }
+        }
+        return httpStr;
+    }
+
 
     /**
      * 发送 POST 请求（HTTP），K-V形式
@@ -288,6 +352,39 @@ public class HttpClientUtil {
             logger.info("[http工具类]响应状态码:{}",response.getStatusLine().getStatusCode());
             if(entity!=null)
             httpStr = EntityUtils.toString(entity, "UTF-8");
+        } catch (IOException e) {
+            logger.error("[http工具类]请求发生IO异常:",e);
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    logger.error("[http工具类]请求发生IO异常1:",e);
+                }
+            }
+        }
+        return httpStr;
+    }
+
+    public static String doPostJSon(String apiUrl, String jsonStr,String cookieStr) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        try {
+            httpPost.setConfig(requestConfig);
+            StringEntity stringEntity = new StringEntity(jsonStr);//解决中文乱码问题
+            httpPost.addHeader(new BasicHeader("Cookie",cookieStr));
+            stringEntity.setContentType("application/json");
+            httpPost.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36");
+            httpPost.setHeader("Accept","application/json, text/plain, */*");
+            httpPost.setEntity(stringEntity);
+            logger.info("[http工具类]请求地址:{}请求参数:{}",apiUrl,jsonStr);
+            response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            logger.info("[http工具类]响应状态码:{}",response.getStatusLine().getStatusCode());
+            if(entity!=null)
+                httpStr = EntityUtils.toString(entity, "UTF-8");
         } catch (IOException e) {
             logger.error("[http工具类]请求发生IO异常:",e);
         } finally {

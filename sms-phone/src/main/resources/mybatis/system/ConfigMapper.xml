@@ -4,15 +4,21 @@
 <mapper namespace="com.bootdo.system.dao.ConfigDao">
 
 	<select id="get" resultType="com.bootdo.system.domain.ConfigDO">
-		select `id`,`url_str`,`param_value`,`post_type`,`is_valid` from bom_config where id = #{value}
+		select `id`,step1_url,step1_url,step1_type,step1_param,step1_contain_key,step1_html_code,
+		`url_str`,`param_value`,`post_type`,`is_valid` from bom_config where id = #{value}
 	</select>
 
 	<select id="listAvailable" resultType="com.bootdo.system.domain.ConfigDO">
-		select `id`,`url_str`,`param_value`,`post_type`,`is_valid` from bom_config where is_valid='1'
+		select `id`,`url_str`,step1_url,step1_type,step1_param,step1_contain_key,step1_html_code,
+		`param_value`,`post_type`,`is_valid`
+		from bom_config
+		 where is_valid='1'
 	</select>
 
 	<select id="list" resultType="com.bootdo.system.domain.ConfigDO">
-		select `id`,`url_str`,`param_value`,`post_type`,`is_valid` from bom_config
+		select `id`,`url_str`,`param_value`,`post_type`,`is_valid` ,
+		step1_url,step1_type,step1_param,step1_contain_key,step1_html_code
+		from bom_config
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="urlStr != null and urlStr != ''"> and url_str = #{urlStr} </if>

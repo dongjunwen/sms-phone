@@ -17,6 +17,14 @@ public class ConfigDO implements Serializable {
 	
 	//主键ID
 	private Long id;
+	//1.第一步
+	private String step1Url;
+	private String step1Type;
+	private String step1Param;
+	private String step1ContainKey;
+	private String step1HtmlCode;
+
+
 	//请求地址
 	private String urlStr;
 	//请求参数
@@ -32,6 +40,47 @@ public class ConfigDO implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public String getStep1Url() {
+		return step1Url;
+	}
+
+	public void setStep1Url(String step1Url) {
+		this.step1Url = step1Url;
+	}
+
+	public String getStep1Type() {
+		return step1Type;
+	}
+
+	public void setStep1Type(String step1Type) {
+		this.step1Type = step1Type;
+	}
+
+	public String getStep1Param() {
+		return step1Param;
+	}
+
+	public void setStep1Param(String step1Param) {
+		this.step1Param = step1Param;
+	}
+
+	public String getStep1ContainKey() {
+		return step1ContainKey;
+	}
+
+	public void setStep1ContainKey(String step1ContainKey) {
+		this.step1ContainKey = step1ContainKey;
+	}
+
+	public String getStep1HtmlCode() {
+		return step1HtmlCode;
+	}
+
+	public void setStep1HtmlCode(String step1HtmlCode) {
+		this.step1HtmlCode = step1HtmlCode;
+	}
+
 	/**
 	 * 获取：主键ID
 	 */
