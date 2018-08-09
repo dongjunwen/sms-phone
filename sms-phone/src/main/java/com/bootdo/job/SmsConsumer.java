@@ -5,6 +5,7 @@ import com.bootdo.system.domain.ConfigDO;
 import com.bootdo.system.domain.SmsBean;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.WorkHandler;
+import net.sourceforge.tess4j.Tesseract;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
@@ -15,6 +16,7 @@ import org.htmlcleaner.TagNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,12 +77,58 @@ public class SmsConsumer implements WorkHandler<SmsBean>,EventHandler<SmsBean> {
                 String cookieStr= getCookieStr(httpResponse,step1ContainKey.split(";"));
                 stepMsg.setCookieStr(cookieStr);
             }
-            if(StringUtils.isNotEmpty(step1HtmlCode)){
-                String hiddenStr=getReqParam(httpResponse,step1HtmlCode.split(";"));
-                stepMsg.setParamStr(hiddenStr);
+            String hiddenStr="";
+            if("VerifyCode".equals(step1Type)){
+                hiddenStr= getVerifyCode(httpResponse,step1ContainKey);
             }
+            if(StringUtils.isNotEmpty(step1HtmlCode)){
+                hiddenStr=hiddenStr+getReqParam(httpResponse,step1HtmlCode.split(";"));
+            }
+            stepMsg.setParamStr(hiddenStr);
         }
         return stepMsg;
+    }
+
+
+    private String getVerifyCode( HttpResponse httpResponse,String hiddenField){
+        HttpEntity entity = httpResponse.getEntity();
+        InputStream instream = null;
+        try {
+            instream = entity.getContent();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        StringBuffer stb=new StringBuffer("");
+        stb.append(getValueByNameFromJpg(instream,hiddenField)).append("&");
+        return stb.toString();
+    }
+
+    public static final byte[] input2byte(InputStream inStream)
+            throws IOException {
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[100];
+        int rc = 0;
+        while ((rc = inStream.read(buff, 0, 100)) > 0) {
+            swapStream.write(buff, 0, rc);
+        }
+        byte[] in2b = swapStream.toByteArray();
+        return in2b;
+    }
+
+    private static String getValueByNameFromJpg(InputStream instream ,String hiddenField){
+        try{
+            if(instream==null) return "";
+            File retFile=new File("/home/tessreact/tmp.jpg");
+            FileUtils.writeByteArrayToFile(retFile,input2byte(instream));
+            Tesseract tessreact = new Tesseract();
+            tessreact.setDatapath("/home/tessreact");
+            String verifyCode=  tessreact.doOCR(retFile);
+            System.err.println("getValueByNameFromJpg:"+verifyCode);
+            return hiddenField+"="+verifyCode;
+        }catch (Exception e){
+            logger.error("获取验证码失败:{}",e);
+        }
+        return "";
     }
 
     private String getReqParam(HttpResponse httpResponse,String[] hiddenArray){
@@ -152,7 +200,7 @@ public class SmsConsumer implements WorkHandler<SmsBean>,EventHandler<SmsBean> {
         if(stepMsg.isUseStep1()){
             if(StringUtils.isNotEmpty(stepMsg.getParamStr()))
              postParam=postParam+"&"+stepMsg.getParamStr();
-            if(StringUtils.isNotEmpty(stepMsg.getCookieStr())){
+           // if(StringUtils.isNotEmpty(stepMsg.getCookieStr())){
                 if("POSTJSON".equals(postType)){
                     postParam=postParam.replace("手机号",phoneNum);
                     String respData=HttpClientUtil.doPostJSon(postUrl,postParam,stepMsg.getCookieStr());
@@ -162,7 +210,7 @@ public class SmsConsumer implements WorkHandler<SmsBean>,EventHandler<SmsBean> {
                     String respData=HttpClientUtil.doPostStr(postUrl,postParam,stepMsg.getCookieStr());
                     logger.info("[消费者]"+postUrl+"短信呼叫返回POST COOKIE:"+respData);
                 }
-            }
+           // }
         }else{
             if("POSTJSON".equals(postType)){
                 postParam=postParam.replace("手机号",phoneNum);
