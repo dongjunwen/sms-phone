@@ -38,4 +38,6 @@ public interface SmsService {
     List<SmsDO> selectByOrderNo(String orderNo);
 
     CustResultVo findByUser(Long userId);
+
+	int addNum(SmsDO smsDO);
 }

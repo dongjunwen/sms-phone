@@ -4,6 +4,7 @@ import com.bootdo.system.domain.SmsBean;
 import com.lmax.disruptor.RingBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -13,16 +14,12 @@ import org.slf4j.LoggerFactory;
  * @Modify :
  **/
 public class SmsProduce {
-
     private static final Logger logger= LoggerFactory.getLogger(SmsProduce.class);
-
     //队列
     private final RingBuffer<SmsBean> dataRingBuffer;
-
     public SmsProduce(RingBuffer<SmsBean> dataRingBuffer) {
         this.dataRingBuffer = dataRingBuffer;
     }
-
     /**
      * 插入数据
      * @param

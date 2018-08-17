@@ -99,6 +99,13 @@
 		</set>
 		where id = #{id}
 	</update>
+
+	<update id="addNum" parameterType="com.bootdo.system.domain.SmsDO">
+		update bom_sms
+		 set success_num=success_num+1
+		where phone_num = #{phoneNum}
+		and order_no = #{orderNo}
+	</update>
 	
 	<delete id="remove">
 		delete from bom_sms where id = #{value}

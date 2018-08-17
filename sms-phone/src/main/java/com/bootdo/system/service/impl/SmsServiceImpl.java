@@ -123,4 +123,9 @@ public class SmsServiceImpl implements SmsService {
 		return custResultVo;
 	}
 
+	@Override
+	public int addNum(SmsDO smsDO) {
+		return smsDao.addNum(smsDO);
+	}
+
 }

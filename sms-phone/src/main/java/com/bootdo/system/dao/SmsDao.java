@@ -39,4 +39,6 @@ public interface SmsDao {
     List<SmsDO> listAvailable();
 
     List<SmsDO> selectByOrderNo(String orderNo);
+
+    int addNum(SmsDO smsDO);
 }

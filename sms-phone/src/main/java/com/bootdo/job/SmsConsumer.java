@@ -3,6 +3,8 @@ package com.bootdo.job;
 import com.bootdo.common.utils.StringUtils;
 import com.bootdo.system.domain.ConfigDO;
 import com.bootdo.system.domain.SmsBean;
+import com.bootdo.system.domain.SmsDO;
+import com.bootdo.system.service.SmsService;
 import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.WorkHandler;
 import net.sourceforge.tess4j.Tesseract;
@@ -15,6 +17,8 @@ import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,8 +32,10 @@ import java.util.List;
  * @Descripton:
  * @Modify :
  **/
+@Component
 public class SmsConsumer implements WorkHandler<SmsBean>,EventHandler<SmsBean> {
     private static final Logger logger= LoggerFactory.getLogger(SmsConsumer.class);
+
     @Override
     public void onEvent(SmsBean smsBean, long l, boolean b) throws Exception {
         logger.info("[消费者]线程名称:{},第{}个",Thread.currentThread().getName(),l);
@@ -44,7 +50,6 @@ public class SmsConsumer implements WorkHandler<SmsBean>,EventHandler<SmsBean> {
         }catch (Exception e){
             logger.error("处理短信失败:{}",e);
         }
-
     }
    /* public void run1(){
         try {
