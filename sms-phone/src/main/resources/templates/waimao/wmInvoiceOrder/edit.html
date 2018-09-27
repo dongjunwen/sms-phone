@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${wmInvoiceOrder.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">发票号码：</label>
+								<div class="col-sm-8">
+									<input id="invoiceNum" name="invoiceNum" th:value="${wmInvoiceOrder.invoiceNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">发票日期：</label>
+								<div class="col-sm-8">
+									<input id="invoiceDate" name="invoiceDate" th:value="${wmInvoiceOrder.invoiceDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">制单日期：</label>
+								<div class="col-sm-8">
+									<input id="createDate" name="createDate" th:value="${wmInvoiceOrder.createDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">备单号码：</label>
+								<div class="col-sm-8">
+									<input id="reserveInvoiceNum" name="reserveInvoiceNum" th:value="${wmInvoiceOrder.reserveInvoiceNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">业务员：</label>
+								<div class="col-sm-8">
+									<input id="salerNo" name="salerNo" th:value="${wmInvoiceOrder.salerNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">出口合同号：</label>
+								<div class="col-sm-8">
+									<input id="exportContractNo" name="exportContractNo" th:value="${wmInvoiceOrder.exportContractNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">客户订单号：</label>
+								<div class="col-sm-8">
+									<input id="custOrderNo" name="custOrderNo" th:value="${wmInvoiceOrder.custOrderNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">信用证号：</label>
+								<div class="col-sm-8">
+									<input id="creditCardNo" name="creditCardNo" th:value="${wmInvoiceOrder.creditCardNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">开证日期：</label>
+								<div class="col-sm-8">
+									<input id="openDate" name="openDate" th:value="${wmInvoiceOrder.openDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">信用证装期：</label>
+								<div class="col-sm-8">
+									<input id="loadDate" name="loadDate" th:value="${wmInvoiceOrder.loadDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">信用证效期：</label>
+								<div class="col-sm-8">
+									<input id="validDate" name="validDate" th:value="${wmInvoiceOrder.validDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">装船港：</label>
+								<div class="col-sm-8">
+									<input id="loadPort" name="loadPort" th:value="${wmInvoiceOrder.loadPort}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">允许转船 </label>
+								<div class="col-sm-8">
+									<input id="isTransfer" name="isTransfer" th:value="${wmInvoiceOrder.isTransfer}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">允许分装 </label>
+								<div class="col-sm-8">
+									<input id="isSplit" name="isSplit" th:value="${wmInvoiceOrder.isSplit}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">转船港：</label>
+								<div class="col-sm-8">
+									<input id="trasferPort" name="trasferPort" th:value="${wmInvoiceOrder.trasferPort}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">卸货港：</label>
+								<div class="col-sm-8">
+									<input id="unloadPort" name="unloadPort" th:value="${wmInvoiceOrder.unloadPort}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">目的港：</label>
+								<div class="col-sm-8">
+									<input id="destPort" name="destPort" th:value="${wmInvoiceOrder.destPort}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">最终交货地：</label>
+								<div class="col-sm-8">
+									<input id="destPlace" name="destPlace" th:value="${wmInvoiceOrder.destPlace}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">贸易国：</label>
+								<div class="col-sm-8">
+									<input id="tradeCountry" name="tradeCountry" th:value="${wmInvoiceOrder.tradeCountry}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">消费国：</label>
+								<div class="col-sm-8">
+									<input id="consumContry" name="consumContry" th:value="${wmInvoiceOrder.consumContry}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">结汇方式：</label>
+								<div class="col-sm-8">
+									<input id="settleType" name="settleType" th:value="${wmInvoiceOrder.settleType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">运输方式：</label>
+								<div class="col-sm-8">
+									<input id="transportType" name="transportType" th:value="${wmInvoiceOrder.transportType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">运费付款方式：</label>
+								<div class="col-sm-8">
+									<input id="payType" name="payType" th:value="${wmInvoiceOrder.payType}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">成交条件：</label>
+								<div class="col-sm-8">
+									<input id="dealCond" name="dealCond" th:value="${wmInvoiceOrder.dealCond}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">船名：</label>
+								<div class="col-sm-8">
+									<input id="shipName" name="shipName" th:value="${wmInvoiceOrder.shipName}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">航次：</label>
+								<div class="col-sm-8">
+									<input id="voyageNum" name="voyageNum" th:value="${wmInvoiceOrder.voyageNum}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">提单号码：</label>
+								<div class="col-sm-8">
+									<input id="billNo" name="billNo" th:value="${wmInvoiceOrder.billNo}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">提单日期：</label>
+								<div class="col-sm-8">
+									<input id="billDate" name="billDate" th:value="${wmInvoiceOrder.billDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">议付日期：</label>
+								<div class="col-sm-8">
+									<input id="billPayDate" name="billPayDate" th:value="${wmInvoiceOrder.billPayDate}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">单证状态：</label>
+								<div class="col-sm-8">
+									<input id="billStatus" name="billStatus" th:value="${wmInvoiceOrder.billStatus}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">是否存档：</label>
+								<div class="col-sm-8">
+									<input id="isSave" name="isSave" th:value="${wmInvoiceOrder.isSave}" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">提单正本：</label>
+								<div class="col-sm-8">
+									<input id="billOrigin" name="billOrigin" th:value="${wmInvoiceOrder.billOrigin}" class="form-control" type="text">
+								</div>
+							</div>
+
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/waimao/wmInvoiceOrder/edit.js">
+	</script>
+</body>
+</html>

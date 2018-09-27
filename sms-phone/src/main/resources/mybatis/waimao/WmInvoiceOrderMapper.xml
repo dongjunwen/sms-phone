@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.waimao.dao.WmInvoiceOrderDao">
+
+	<select id="get" resultType="com.bootdo.waimao.domain.WmInvoiceOrderDO">
+		select `id`,`invoice_num`,`invoice_date`,`create_date`,`reserve_invoice_num`,`saler_no`,`export_contract_no`,`cust_order_no`,`credit_card_no`,`open_date`,`load_date`,`valid_date`,`load_port`,`is_transfer`,`is_split`,`trasfer_port`,`unload_port`,`dest_port`,`dest_place`,`trade_country`,`consum_contry`,`settle_type`,`transport_type`,`pay_type`,`deal_cond`,`ship_name`,`voyage_num`,`bill_no`,`bill_date`,`bill_pay_date`,`bill_status`,`is_save`,`bill_origin`,`create_time`,`create_name`,`modi_time`,`modi_name` from wm_invoice_order where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.waimao.domain.WmInvoiceOrderDO">
+		select `id`,`invoice_num`,`invoice_date`,`create_date`,`reserve_invoice_num`,`saler_no`,`export_contract_no`,`cust_order_no`,`credit_card_no`,`open_date`,`load_date`,`valid_date`,`load_port`,`is_transfer`,`is_split`,`trasfer_port`,`unload_port`,`dest_port`,`dest_place`,`trade_country`,`consum_contry`,`settle_type`,`transport_type`,`pay_type`,`deal_cond`,`ship_name`,`voyage_num`,`bill_no`,`bill_date`,`bill_pay_date`,`bill_status`,`is_save`,`bill_origin`,`create_time`,`create_name`,`modi_time`,`modi_name` from wm_invoice_order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="invoiceNum != null and invoiceNum != ''"> and invoice_num = #{invoiceNum} </if>
+		  		  <if test="invoiceDate != null and invoiceDate != ''"> and invoice_date = #{invoiceDate} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="reserveInvoiceNum != null and reserveInvoiceNum != ''"> and reserve_invoice_num = #{reserveInvoiceNum} </if>
+		  		  <if test="salerNo != null and salerNo != ''"> and saler_no = #{salerNo} </if>
+		  		  <if test="exportContractNo != null and exportContractNo != ''"> and export_contract_no = #{exportContractNo} </if>
+		  		  <if test="custOrderNo != null and custOrderNo != ''"> and cust_order_no = #{custOrderNo} </if>
+		  		  <if test="creditCardNo != null and creditCardNo != ''"> and credit_card_no = #{creditCardNo} </if>
+		  		  <if test="openDate != null and openDate != ''"> and open_date = #{openDate} </if>
+		  		  <if test="loadDate != null and loadDate != ''"> and load_date = #{loadDate} </if>
+		  		  <if test="validDate != null and validDate != ''"> and valid_date = #{validDate} </if>
+		  		  <if test="loadPort != null and loadPort != ''"> and load_port = #{loadPort} </if>
+		  		  <if test="isTransfer != null and isTransfer != ''"> and is_transfer = #{isTransfer} </if>
+		  		  <if test="isSplit != null and isSplit != ''"> and is_split = #{isSplit} </if>
+		  		  <if test="trasferPort != null and trasferPort != ''"> and trasfer_port = #{trasferPort} </if>
+		  		  <if test="unloadPort != null and unloadPort != ''"> and unload_port = #{unloadPort} </if>
+		  		  <if test="destPort != null and destPort != ''"> and dest_port = #{destPort} </if>
+		  		  <if test="destPlace != null and destPlace != ''"> and dest_place = #{destPlace} </if>
+		  		  <if test="tradeCountry != null and tradeCountry != ''"> and trade_country = #{tradeCountry} </if>
+		  		  <if test="consumContry != null and consumContry != ''"> and consum_contry = #{consumContry} </if>
+		  		  <if test="settleType != null and settleType != ''"> and settle_type = #{settleType} </if>
+		  		  <if test="transportType != null and transportType != ''"> and transport_type = #{transportType} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="dealCond != null and dealCond != ''"> and deal_cond = #{dealCond} </if>
+		  		  <if test="shipName != null and shipName != ''"> and ship_name = #{shipName} </if>
+		  		  <if test="voyageNum != null and voyageNum != ''"> and voyage_num = #{voyageNum} </if>
+		  		  <if test="billNo != null and billNo != ''"> and bill_no = #{billNo} </if>
+		  		  <if test="billDate != null and billDate != ''"> and bill_date = #{billDate} </if>
+		  		  <if test="billPayDate != null and billPayDate != ''"> and bill_pay_date = #{billPayDate} </if>
+		  		  <if test="billStatus != null and billStatus != ''"> and bill_status = #{billStatus} </if>
+		  		  <if test="isSave != null and isSave != ''"> and is_save = #{isSave} </if>
+		  		  <if test="billOrigin != null and billOrigin != ''"> and bill_origin = #{billOrigin} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="createName != null and createName != ''"> and create_name = #{createName} </if>
+		  		  <if test="modiTime != null and modiTime != ''"> and modi_time = #{modiTime} </if>
+		  		  <if test="modiName != null and modiName != ''"> and modi_name = #{modiName} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from wm_invoice_order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="invoiceNum != null and invoiceNum != ''"> and invoice_num = #{invoiceNum} </if>
+		  		  <if test="invoiceDate != null and invoiceDate != ''"> and invoice_date = #{invoiceDate} </if>
+		  		  <if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+		  		  <if test="reserveInvoiceNum != null and reserveInvoiceNum != ''"> and reserve_invoice_num = #{reserveInvoiceNum} </if>
+		  		  <if test="salerNo != null and salerNo != ''"> and saler_no = #{salerNo} </if>
+		  		  <if test="exportContractNo != null and exportContractNo != ''"> and export_contract_no = #{exportContractNo} </if>
+		  		  <if test="custOrderNo != null and custOrderNo != ''"> and cust_order_no = #{custOrderNo} </if>
+		  		  <if test="creditCardNo != null and creditCardNo != ''"> and credit_card_no = #{creditCardNo} </if>
+		  		  <if test="openDate != null and openDate != ''"> and open_date = #{openDate} </if>
+		  		  <if test="loadDate != null and loadDate != ''"> and load_date = #{loadDate} </if>
+		  		  <if test="validDate != null and validDate != ''"> and valid_date = #{validDate} </if>
+		  		  <if test="loadPort != null and loadPort != ''"> and load_port = #{loadPort} </if>
+		  		  <if test="isTransfer != null and isTransfer != ''"> and is_transfer = #{isTransfer} </if>
+		  		  <if test="isSplit != null and isSplit != ''"> and is_split = #{isSplit} </if>
+		  		  <if test="trasferPort != null and trasferPort != ''"> and trasfer_port = #{trasferPort} </if>
+		  		  <if test="unloadPort != null and unloadPort != ''"> and unload_port = #{unloadPort} </if>
+		  		  <if test="destPort != null and destPort != ''"> and dest_port = #{destPort} </if>
+		  		  <if test="destPlace != null and destPlace != ''"> and dest_place = #{destPlace} </if>
+		  		  <if test="tradeCountry != null and tradeCountry != ''"> and trade_country = #{tradeCountry} </if>
+		  		  <if test="consumContry != null and consumContry != ''"> and consum_contry = #{consumContry} </if>
+		  		  <if test="settleType != null and settleType != ''"> and settle_type = #{settleType} </if>
+		  		  <if test="transportType != null and transportType != ''"> and transport_type = #{transportType} </if>
+		  		  <if test="payType != null and payType != ''"> and pay_type = #{payType} </if>
+		  		  <if test="dealCond != null and dealCond != ''"> and deal_cond = #{dealCond} </if>
+		  		  <if test="shipName != null and shipName != ''"> and ship_name = #{shipName} </if>
+		  		  <if test="voyageNum != null and voyageNum != ''"> and voyage_num = #{voyageNum} </if>
+		  		  <if test="billNo != null and billNo != ''"> and bill_no = #{billNo} </if>
+		  		  <if test="billDate != null and billDate != ''"> and bill_date = #{billDate} </if>
+		  		  <if test="billPayDate != null and billPayDate != ''"> and bill_pay_date = #{billPayDate} </if>
+		  		  <if test="billStatus != null and billStatus != ''"> and bill_status = #{billStatus} </if>
+		  		  <if test="isSave != null and isSave != ''"> and is_save = #{isSave} </if>
+		  		  <if test="billOrigin != null and billOrigin != ''"> and bill_origin = #{billOrigin} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="createName != null and createName != ''"> and create_name = #{createName} </if>
+		  		  <if test="modiTime != null and modiTime != ''"> and modi_time = #{modiTime} </if>
+		  		  <if test="modiName != null and modiName != ''"> and modi_name = #{modiName} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.waimao.domain.WmInvoiceOrderDO">
+		insert into wm_invoice_order
+		(
+			`id`, 
+			`invoice_num`, 
+			`invoice_date`, 
+			`create_date`, 
+			`reserve_invoice_num`, 
+			`saler_no`, 
+			`export_contract_no`, 
+			`cust_order_no`, 
+			`credit_card_no`, 
+			`open_date`, 
+			`load_date`, 
+			`valid_date`, 
+			`load_port`, 
+			`is_transfer`, 
+			`is_split`, 
+			`trasfer_port`, 
+			`unload_port`, 
+			`dest_port`, 
+			`dest_place`, 
+			`trade_country`, 
+			`consum_contry`, 
+			`settle_type`, 
+			`transport_type`, 
+			`pay_type`, 
+			`deal_cond`, 
+			`ship_name`, 
+			`voyage_num`, 
+			`bill_no`, 
+			`bill_date`, 
+			`bill_pay_date`, 
+			`bill_status`, 
+			`is_save`, 
+			`bill_origin`, 
+			`create_time`, 
+			`create_name`, 
+			`modi_time`, 
+			`modi_name`
+		)
+		values
+		(
+			#{id}, 
+			#{invoiceNum}, 
+			#{invoiceDate}, 
+			#{createDate}, 
+			#{reserveInvoiceNum}, 
+			#{salerNo}, 
+			#{exportContractNo}, 
+			#{custOrderNo}, 
+			#{creditCardNo}, 
+			#{openDate}, 
+			#{loadDate}, 
+			#{validDate}, 
+			#{loadPort}, 
+			#{isTransfer}, 
+			#{isSplit}, 
+			#{trasferPort}, 
+			#{unloadPort}, 
+			#{destPort}, 
+			#{destPlace}, 
+			#{tradeCountry}, 
+			#{consumContry}, 
+			#{settleType}, 
+			#{transportType}, 
+			#{payType}, 
+			#{dealCond}, 
+			#{shipName}, 
+			#{voyageNum}, 
+			#{billNo}, 
+			#{billDate}, 
+			#{billPayDate}, 
+			#{billStatus}, 
+			#{isSave}, 
+			#{billOrigin}, 
+			#{createTime}, 
+			#{createName}, 
+			#{modiTime}, 
+			#{modiName}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.waimao.domain.WmInvoiceOrderDO">
+		update wm_invoice_order 
+		<set>
+			<if test="invoiceNum != null">`invoice_num` = #{invoiceNum}, </if>
+			<if test="invoiceDate != null">`invoice_date` = #{invoiceDate}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="reserveInvoiceNum != null">`reserve_invoice_num` = #{reserveInvoiceNum}, </if>
+			<if test="salerNo != null">`saler_no` = #{salerNo}, </if>
+			<if test="exportContractNo != null">`export_contract_no` = #{exportContractNo}, </if>
+			<if test="custOrderNo != null">`cust_order_no` = #{custOrderNo}, </if>
+			<if test="creditCardNo != null">`credit_card_no` = #{creditCardNo}, </if>
+			<if test="openDate != null">`open_date` = #{openDate}, </if>
+			<if test="loadDate != null">`load_date` = #{loadDate}, </if>
+			<if test="validDate != null">`valid_date` = #{validDate}, </if>
+			<if test="loadPort != null">`load_port` = #{loadPort}, </if>
+			<if test="isTransfer != null">`is_transfer` = #{isTransfer}, </if>
+			<if test="isSplit != null">`is_split` = #{isSplit}, </if>
+			<if test="trasferPort != null">`trasfer_port` = #{trasferPort}, </if>
+			<if test="unloadPort != null">`unload_port` = #{unloadPort}, </if>
+			<if test="destPort != null">`dest_port` = #{destPort}, </if>
+			<if test="destPlace != null">`dest_place` = #{destPlace}, </if>
+			<if test="tradeCountry != null">`trade_country` = #{tradeCountry}, </if>
+			<if test="consumContry != null">`consum_contry` = #{consumContry}, </if>
+			<if test="settleType != null">`settle_type` = #{settleType}, </if>
+			<if test="transportType != null">`transport_type` = #{transportType}, </if>
+			<if test="payType != null">`pay_type` = #{payType}, </if>
+			<if test="dealCond != null">`deal_cond` = #{dealCond}, </if>
+			<if test="shipName != null">`ship_name` = #{shipName}, </if>
+			<if test="voyageNum != null">`voyage_num` = #{voyageNum}, </if>
+			<if test="billNo != null">`bill_no` = #{billNo}, </if>
+			<if test="billDate != null">`bill_date` = #{billDate}, </if>
+			<if test="billPayDate != null">`bill_pay_date` = #{billPayDate}, </if>
+			<if test="billStatus != null">`bill_status` = #{billStatus}, </if>
+			<if test="isSave != null">`is_save` = #{isSave}, </if>
+			<if test="billOrigin != null">`bill_origin` = #{billOrigin}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createName != null">`create_name` = #{createName}, </if>
+			<if test="modiTime != null">`modi_time` = #{modiTime}, </if>
+			<if test="modiName != null">`modi_name` = #{modiName}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from wm_invoice_order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from wm_invoice_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="selectByIds" resultType="com.bootdo.waimao.domain.WmInvoiceOrderDO">
+		select * from wm_invoice_order where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+</mapper>
